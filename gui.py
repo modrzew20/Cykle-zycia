@@ -16,143 +16,156 @@ class Ui_MainWindow(object):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 700)
         MainWindow.setStyleSheet("QDialogButtonBox > QPushButton{\n"
-"\n"
-"background-color: rgb(27, 3, 159);\n"
-"color:white;\n"
-"font-size:25px;\n"
-"font-family:Verdana,bold;\n"
-"}\n"
-"\n"
-"#widget{\n"
-"background:url(./logo.svg)\n"
-"\n"
-"}\n"
-"\n"
-"QDialogButtonBox > QPushButton:hover{\n"
-"background-color:rgb(19, 42, 255)\n"
-"}\n"
-"\n"
-"#groupBox {\n"
-"color:white;\n"
-"font-size:20px;\n"
-"}\n"
-"QRadioButton{\n"
-"color:white;\n"
-"font-size:25px;\n"
-"font:Verdana,bold;\n"
-"}\n"
-"\n"
-"\n"
-"#title , #title_2{\n"
-"    font-family: Georgia;\n"
-"font-size: 40px;"
-"}\n"
-"\n"
-"QLabel\n"
-"{\n"
-"    color : white;\n"
-"    font-size: 20px;		\n"
-"   font-family: Georgia, serif; \n"
-"}\n"
-"\n"
-"#page_exist,#page_newrent,#page_newroom,#page_main\n"
-"{\n"
-"    background: url(./tlo2.jpg);\n"
-"}\n"
-"\n"
-"#newrent,#newroom{\n"
-"    border-radius: 25px;\n"
-"    background: #1B1B1B\n"
-"}\n"
-"#exitbuttons {\n"
-"background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,x3: 0, y3:2,    stop: 0 rgba(184,44,44,1),stop: 0.4 rgba(69,9,121,1) ,stop: 0.8 rgba(2,0,36,1));\n"
-"}\n"
-"\n"
-"#buttons {\n"
-"background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0,x3: 2, y3:0,    stop: 0 rgba(184,44,44,1),stop: 0.4 rgba(69,9,121,1) ,stop: 0.8 rgba(11,11,11));\n"
-"}\n"
-"\n"
-"QTabWidget:pane {\n"
-"border: 0px;\n"
-"}\n"
-"\n"
-"#tabWidget_2 > QTabBar::tab {\n"
-" padding: 10px;\n"
-"}\n"
-"#tabWidget_2 >QTabBar::tab:selected { \n"
-"  background: rgb(170, 85, 255); \n"
-"}\n"
-"\n"
-"\n"
-"QTabBar::tab {\n"
-"  background: rgb(230, 230, 230); \n"
-"  border: 1px solid lightgray; \n"
-"  padding: 15px;\n"
-"  font-family:Verdana,bold;\n"
-"  font-size: 15px;\n"
-"} \n"
-"\n"
-"QTabBar::tab:selected { \n"
-"  background: rgb(170, 170, 255);\n"
-"  margin-bottom: -1px; \n"
-"}\n"
-"\n"
-"\n"
-"#tab,#tab_2,#tab_4{\n"
-"    background: rgb(170, 170, 255);\n"
-"    border:0px solid;\n"
-"}\n"
-"\n"
-"#tab_3,#tab_6,#tab_5 {\n"
-"    background: #1B1B1B;\n"
-"}\n"
-"\n"
-"#frame {\n"
-"    background:white;\n"
-"}\n"
-"\n"
-"QLineEdit{ \n"
-"background-color:rgba(142,89,188,0.71);\n"
-"border: 2px solid gray;\n"
-"border-radius: 10px;\n"
-"padding: 0 8px;\n"
-"selection-background-color: darkgray;\n"
-"font-size: 16px;\n"
-"}\n"
-"QSpinBox{\n"
-"background-color:rgba(142,89,188,0.71);\n"
-"border-radius: 10px;\n"
-"font-size: 16px;\n"
-"padding: 0 10px;\n"
-"}\n"
-"\n"
-"QCheckBox {\n"
-"color:white;\n"
-"font-size: 20px;\n"
-"font:bold;\n"
-"}\n"
-"\n"
-"#pushButton,#pushButton_2,#pushButton_3,#pushButton_4,#expand{\n"
-"  background-color: RoyalBlue;\n"
-"  border: none;\n"
-"  border-radius: 10px;\n"
-"  cursor: pointer;\n"
-"}\n"
-"\n"
-"#pushButton:hover,#pushButton_2:hover,#pushButton_3:hover,#pushButton_4:hover {\n"
-"  background-color: DodgerBlue;\n"
-"}\n"
-"\n"
-"#expand{\n"
-"  background-color: rgb(27, 3, 159);\n"
-"  color:white;\n"
-"  font:bold;\n"
-"}\n"
-"#expand:hover{\n"
-"  background-color: rgb(19, 42, 255);\n"
-"}\n"
-"")
-        MainWindow.setWindowIcon(QtGui.QIcon( "./logogorne.svg"))
+                                 "\n"
+                                 "background-color: rgb(27, 3, 159);\n"
+                                 "color:rgb(198, 140, 255);\n"
+                                 "font-size:20px;\n"
+                                 "font-family:Verdana,bold;\n"
+                                 "}\n"
+                                 """ QDialogButtonBox > QPushButton:hover{
+                                 color:white;
+                                 }
+                                 """
+                                 
+                                 
+                                 "\n"
+                                 "#widget{\n"
+                                 "background:url(./logo.svg)\n"
+                                 "\n"
+                                 "}\n"
+                                 "\n"
+                                 "QDialogButtonBox > QPushButton:hover{\n"
+                                 "background-color:rgb(19, 42, 255)\n"
+                                 "}\n"
+                                 "\n"
+                                 "#groupBox {\n"
+                                 "color:white;\n"
+                                 "font-size:20px;\n"
+                                 "}\n"
+                                 "QRadioButton{\n"
+                                 "color:white;\n"
+                                 "font-size:25px;\n"
+                                 "font:Verdana,bold;\n"
+                                 "}\n"
+                                 "\n"
+                                 "\n"
+                                 "#title , #title_2{\n"
+                                 "    font-family: Georgia;\n"
+                                 "font-size: 40px;"
+                                 "}\n"
+                                 "\n"
+                                 "QLabel\n"
+                                 "{\n"
+                                 "    color : white;\n"
+                                 "    font-size: 20px;		\n"
+                                 "   font-family: Georgia, serif; \n"
+                                 "}\n"
+                                 "\n"
+                                 "#page_exist,#page_newrent,#page_newroom,#page_main\n"
+                                 "{\n"
+                                 "    background: url(./tlo2.jpg);\n"
+                                 "}\n"
+                                 "\n"
+                                 "#newrent,#newroom{\n"
+                                 "    border-radius: 25px;\n"
+                                 "    background: #1B1B1B\n"
+                                 "}\n"
+                                 "#exitbuttons {\n"
+                                 "background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,x3: 0, y3:2,    stop: 0 rgb(39, 20, 255),stop: 0.4 rgba(69,9,121,1) ,stop: 0.8 rgba(2,0,36,1));\n"
+                                 "}\n"
+                                 "\n"
+                                 "#buttons {\n"
+                                 "background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0,x3: 2, y3:0,    stop: 0 rgb(39, 20, 255),"
+                                 "stop: 0.4 rgba(69,9,121,1) ,stop: 0.8 rgba(11,11,11));\n "
+                                 "}\n"
+                                 "\n"
+                                 "QTabWidget:pane {\n"
+                                 "border: 0px;\n"
+                                 "}\n"
+                                 "\n"
+                                 "#tabWidget_2 > QTabBar::tab {\n"
+                                 " padding: 10px;\n"
+                                 "}\n"
+                                 "#tabWidget_2 >QTabBar::tab:selected { \n"
+                                 "  background: rgb(198, 140, 255); \n"
+                                 "}\n"
+                                 "\n"
+                                 "\n"
+                                 "QTabBar::tab {\n"
+                                 "  background: rgb(230, 230, 230); \n"
+                                 "  border: 1px solid lightgray; \n"
+                                 "  padding: 15px;\n"
+                                 "  font-family:Verdana,bold;\n"
+                                 "  font-size: 15px;\n"
+                                 "} \n"
+                                 "\n"
+                                 "QTabBar::tab:selected { \n"
+                                 "  background: rgb(170, 170, 255);\n"
+                                 "  margin-bottom: -1px; \n"
+                                 "}\n"
+                                 "\n"
+                                 "\n"
+                                 "#tab,#tab_2,#tab_4{\n"
+                                 "    background: rgb(170, 170, 255);\n"
+                                 "    border:0px solid;\n"
+                                 "}\n"
+                                 "\n"
+                                 "#tab_3,#tab_6,#tab_5 {\n"
+                                 "    background: #1B1B1B;\n"
+                                 "}\n"
+                                 "\n"
+                                 "#frame {\n"
+                                 "    background:white;\n"
+                                 "}\n"
+                                 "\n"
+                                 "QLineEdit{ \n"
+                                 "background-color:rgb(198, 140, 255);\n"
+                                 "border: 2px solid gray;\n"
+                                 "border-radius: 10px;\n"
+                                 "padding: 0 8px;\n"
+                                 "selection-background-color: darkgray;\n"
+                                 "font-size: 16px;\n"
+                                 "}\n"
+                                 "QSpinBox{\n"
+                                 "background-color:rgb(198, 140, 255);\n"
+                                 "border-radius: 10px;\n"
+                                 "font-size: 16px;\n"
+                                 "padding: 0 10px;\n"
+                                 "}\n"
+                                 """QSpinBox::down-button {
+                                        width:30px;
+                                        }
+                                        
+                                        QSpinBox::up-button {
+                                        width:30px;
+                                        }"""
+                                 "QCheckBox {\n"
+                                 "color:white;\n"
+                                 "font-size: 20px;\n"
+                                 "font:bold;\n"
+                                 "}\n"
+                                 "\n"
+                                 "#pushButton,#pushButton_2,#pushButton_3,#pushButton_4,#expand{\n"
+                                 "  background-color: RoyalBlue;\n"
+                                 "  border: none;\n"
+                                 "  border-radius: 10px;\n"
+                                 "  cursor: pointer;\n"
+                                 "}\n"
+                                 "\n"
+                                 "#pushButton:hover,#pushButton_2:hover,#pushButton_3:hover,#pushButton_4:hover {\n"
+                                 "  background-color: DodgerBlue;\n"
+                                 "}\n"
+                                 "\n"
+                                 "#expand{\n"
+                                 "  background-color: rgb(27, 3, 159);\n"
+                                 "  color:white;\n"
+                                 "  font:bold;\n"
+                                 "}\n"
+                                 "#expand:hover{\n"
+                                 "  background-color: rgb(19, 42, 255);\n"
+                                 "}\n"
+                                 "")
+        MainWindow.setWindowIcon(QtGui.QIcon("./logogorne.svg"))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.main = QtWidgets.QFrame(self.centralwidget)
@@ -275,7 +288,7 @@ class Ui_MainWindow(object):
         self.lNFlat.setObjectName("lNFlat")
         self.buttonBox = QtWidgets.QDialogButtonBox(self.newrent)
         self.buttonBox.setGeometry(QtCore.QRect(230, 510, 193, 28))
-        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox.setObjectName("buttonBox")
         self.groupBox = QtWidgets.QGroupBox(self.newrent)
         self.groupBox.setGeometry(QtCore.QRect(60, 440, 531, 61))
@@ -325,7 +338,7 @@ class Ui_MainWindow(object):
         self.label_13.setObjectName("label_13")
         self.buttonBox_2 = QtWidgets.QDialogButtonBox(self.tab_3)
         self.buttonBox_2.setGeometry(QtCore.QRect(190, 250, 193, 28))
-        self.buttonBox_2.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox_2.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox_2.setObjectName("buttonBox_2")
         self.label_14 = QtWidgets.QLabel(self.tab_3)
         self.label_14.setGeometry(QtCore.QRect(40, 110, 171, 20))
@@ -350,7 +363,7 @@ class Ui_MainWindow(object):
         self.label_16.setObjectName("label_16")
         self.buttonBox_3 = QtWidgets.QDialogButtonBox(self.tab_6)
         self.buttonBox_3.setGeometry(QtCore.QRect(190, 250, 193, 28))
-        self.buttonBox_3.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox_3.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox_3.setObjectName("buttonBox_3")
         self.label_17 = QtWidgets.QLabel(self.tab_6)
         self.label_17.setGeometry(QtCore.QRect(20, 140, 201, 20))
@@ -372,7 +385,7 @@ class Ui_MainWindow(object):
         self.spinBox.setObjectName("spinBox")
         self.buttonBox_4 = QtWidgets.QDialogButtonBox(self.tab_5)
         self.buttonBox_4.setGeometry(QtCore.QRect(190, 250, 193, 28))
-        self.buttonBox_4.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel|QtWidgets.QDialogButtonBox.Ok)
+        self.buttonBox_4.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
         self.buttonBox_4.setObjectName("buttonBox_4")
         self.label_20 = QtWidgets.QLabel(self.tab_5)
         self.label_20.setGeometry(QtCore.QRect(30, 120, 191, 20))
@@ -502,7 +515,8 @@ class Ui_MainWindow(object):
         self.label_22.setText(_translate("MainWindow", "KUCHNIA"))
         self.checkBox_2.setText(_translate("MainWindow", "TAK"))
         self.checkBox_3.setText(_translate("MainWindow", "TAK"))
-        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_5), _translate("MainWindow", "     DOMEK LETNISKOWY     "))
+        self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_5),
+                                    _translate("MainWindow", "     DOMEK LETNISKOWY     "))
         self.label.setText(_translate("MainWindow", "ZŁ"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "   REZERWACJE   "))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "  POKOJE  "))
@@ -511,6 +525,7 @@ class Ui_MainWindow(object):
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
