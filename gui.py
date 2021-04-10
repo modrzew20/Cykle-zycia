@@ -70,11 +70,11 @@ class Ui_MainWindow(object):
                                  "    border-radius: 25px;\n"
                                  "    background: #1B1B1B\n"
                                  "}\n"
-                                 "#exitbuttons {\n"
+                                 "#top_frame {\n"
                                  "background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,x3: 0, y3:2,    stop: 0 rgb(39, 20, 255),stop: 0.4 rgba(69,9,121,1) ,stop: 0.8 rgba(2,0,36,1));\n"
                                  "}\n"
                                  "\n"
-                                 "#buttons {\n"
+                                 "#btn_frame {\n"
                                  "background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0,x3: 2, y3:0,    stop: 0 rgb(39, 20, 255),"
                                  "stop: 0.4 rgba(69,9,121,1) ,stop: 0.8 rgba(11,11,11));\n "
                                  "}\n"
@@ -145,26 +145,15 @@ class Ui_MainWindow(object):
                                  "font:bold;\n"
                                  "}\n"
                                  "\n"
-                                 "#pushButton,#pushButton_2,#pushButton_3,#pushButton_4,#expand{\n"
+                                 "#btn_main_page,#btn_addreserv_page,#btn_actualreserv_page,#btn_addroom_page{\n"
                                  "  background-color: RoyalBlue;\n"
                                  "  border: none;\n"
                                  "  border-radius: 10px;\n"
                                  "  cursor: pointer;\n"
                                  "}\n"
                                  "\n"
-                                 "#pushButton:hover,#pushButton_2:hover,#pushButton_3:hover,#pushButton_4:hover {\n"
-                                 "  background-color: DodgerBlue;\n"
-                                 "}\n"
-                                 "\n"
-                                 "#expand{\n"
-                                 "  background-color: rgb(27, 3, 159);\n"
-                                 "  color:white;\n"
-                                 "  font:bold;\n"
-                                 "}\n"
-                                 "#expand:hover{\n"
-                                 "  background-color: rgb(19, 42, 255);\n"
-                                 "}\n"
-                                 "")
+                                 "#btn_main_page:hover,#btn_addreserv_page:hover,#btn_actualreserv_page:hover,#btn_addroom_page:hover{\n"                                 "  background-color: DodgerBlue;\n"
+                                 "}")
         MainWindow.setWindowIcon(QtGui.QIcon("./logogorne.svg"))
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -173,56 +162,48 @@ class Ui_MainWindow(object):
         self.main.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.main.setFrameShadow(QtWidgets.QFrame.Raised)
         self.main.setObjectName("main")
-        self.buttons = QtWidgets.QFrame(self.main)
-        self.buttons.setGeometry(QtCore.QRect(0, 50, 71, 651))
-        self.buttons.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.buttons.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.buttons.setObjectName("buttons")
-        self.pushButton = QtWidgets.QPushButton(self.buttons)
-        self.pushButton.setGeometry(QtCore.QRect(10, 10, 51, 51))
-        self.pushButton.setText("")
+        self.btn_frame = QtWidgets.QFrame(self.main)
+        self.btn_frame.setGeometry(QtCore.QRect(0, 50, 71, 651))
+        self.btn_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.btn_frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.btn_frame.setObjectName("btn_frame")
+        self.btn_main_page = QtWidgets.QPushButton(self.btn_frame)
+        self.btn_main_page.setGeometry(QtCore.QRect(10, 10, 51, 51))
+        self.btn_main_page.setText("")
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap("./main.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton.setIcon(icon)
-        self.pushButton.setIconSize(QtCore.QSize(30, 30))
-        self.pushButton.setObjectName("pushButton")
-        self.pushButton_2 = QtWidgets.QPushButton(self.buttons)
-        self.pushButton_2.setGeometry(QtCore.QRect(10, 70, 51, 51))
-        self.pushButton_2.setText("")
+        self.btn_main_page.setIcon(icon)
+        self.btn_main_page.setIconSize(QtCore.QSize(30, 30))
+        self.btn_main_page.setObjectName("btn_main_page")
+        self.btn_addreserv_page = QtWidgets.QPushButton(self.btn_frame)
+        self.btn_addreserv_page.setGeometry(QtCore.QRect(10, 70, 51, 51))
+        self.btn_addreserv_page.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("./add.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_2.setIcon(icon1)
-        self.pushButton_2.setIconSize(QtCore.QSize(35, 35))
-        self.pushButton_2.setObjectName("pushButton_2")
-        self.pushButton_3 = QtWidgets.QPushButton(self.buttons)
-        self.pushButton_3.setGeometry(QtCore.QRect(10, 130, 51, 51))
-        self.pushButton_3.setText("")
+        self.btn_addreserv_page.setIcon(icon1)
+        self.btn_addreserv_page.setIconSize(QtCore.QSize(35, 35))
+        self.btn_addreserv_page.setObjectName("btn_addreserv_page")
+        self.btn_actualreserv_page = QtWidgets.QPushButton(self.btn_frame)
+        self.btn_actualreserv_page.setGeometry(QtCore.QRect(10, 130, 51, 51))
+        self.btn_actualreserv_page.setText("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap("./reserv.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_3.setIcon(icon2)
-        self.pushButton_3.setIconSize(QtCore.QSize(35, 35))
-        self.pushButton_3.setObjectName("pushButton_3")
-        self.pushButton_4 = QtWidgets.QPushButton(self.buttons)
-        self.pushButton_4.setGeometry(QtCore.QRect(10, 190, 51, 51))
-        self.pushButton_4.setText("")
+        self.btn_actualreserv_page.setIcon(icon2)
+        self.btn_actualreserv_page.setIconSize(QtCore.QSize(35, 35))
+        self.btn_actualreserv_page.setObjectName("btn_actualreserv_page")
+        self.btn_addroom_page = QtWidgets.QPushButton(self.btn_frame)
+        self.btn_addroom_page.setGeometry(QtCore.QRect(10, 190, 51, 51))
+        self.btn_addroom_page.setText("")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap("./addroom.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.pushButton_4.setIcon(icon3)
-        self.pushButton_4.setIconSize(QtCore.QSize(35, 35))
-        self.pushButton_4.setObjectName("pushButton_4")
-        self.exitbuttons = QtWidgets.QFrame(self.main)
-        self.exitbuttons.setGeometry(QtCore.QRect(0, 0, 1201, 51))
-        self.exitbuttons.setFrameShape(QtWidgets.QFrame.StyledPanel)
-        self.exitbuttons.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.exitbuttons.setObjectName("exitbuttons")
-        self.expand = QtWidgets.QPushButton(self.exitbuttons)
-        self.expand.setGeometry(QtCore.QRect(0, 10, 51, 41))
-        self.expand.setText("")
-        icon4 = QtGui.QIcon()
-        icon4.addPixmap(QtGui.QPixmap("./icony.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.expand.setIcon(icon4)
-        self.expand.setIconSize(QtCore.QSize(30, 30))
-        self.expand.setObjectName("expand")
+        self.btn_addroom_page.setIcon(icon3)
+        self.btn_addroom_page.setIconSize(QtCore.QSize(35, 35))
+        self.btn_addroom_page.setObjectName("btn_addroom_page")
+        self.top_frame = QtWidgets.QFrame(self.main)
+        self.top_frame.setGeometry(QtCore.QRect(0, 0, 1201, 51))
+        self.top_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.top_frame.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.top_frame.setObjectName("top_frame")
         self.pages = QtWidgets.QFrame(self.main)
         self.pages.setGeometry(QtCore.QRect(49, 49, 1151, 651))
         self.pages.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -463,10 +444,10 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_exist)
         MainWindow.setCentralWidget(self.centralwidget)
 
-        self.pushButton.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_main))
-        self.pushButton_2.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_newrent))
-        self.pushButton_3.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_exist))
-        self.pushButton_4.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_newroom))
+        self.btn_main_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_main))
+        self.btn_addreserv_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_newrent))
+        self.btn_actualreserv_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_exist))
+        self.btn_addroom_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_newroom))
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)

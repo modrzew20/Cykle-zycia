@@ -64,11 +64,11 @@ QLabel
 	background: #1B1B1B
 }
 #exitbuttons {
-background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,x3: 0, y3:2,    stop: 0 rgba(184,44,44,1),stop: 0.4 rgba(69,9,121,1) ,stop: 0.8 rgba(2,0,36,1));
+background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,x3: 0, y3:2,    stop: 0 rgb(39, 20, 255),stop: 0.4 rgba(69,9,121,1) ,stop: 0.8 rgba(2,0,36,1));
 }
 
 #buttons {
-background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0,x3: 2, y3:0,    stop: 0 rgba(184,44,44,1),stop: 0.4 rgba(69,9,121,1) ,stop: 0.8 rgba(11,11,11));
+background-color: qlineargradient(x1: 0, y1: 0, x2: 1, y2: 0,x3: 2, y3:0,    stop: 0 rgb(39, 20, 255),stop: 0.4 rgba(69,9,121,1) ,stop: 0.8 rgba(11,11,11));
 }
 
 QTabWidget:pane {
@@ -111,7 +111,7 @@ QTabBar::tab:selected {
 }
 
 QLineEdit{ 
-background-color:rgba(142,89,188,0.71);
+background-color:rgb(198, 140, 255);
 border: 2px solid gray;
 border-radius: 10px;
 padding: 0 8px;
@@ -123,6 +123,14 @@ background-color:rgba(142,89,188,0.71);
 border-radius: 10px;
 font-size: 16px;
 padding: 0 10px;
+}
+
+QSpinBox::down-button {
+width:30px;
+}
+
+QSpinBox::up-button {
+width:30px;
 }
 
 QCheckBox {
