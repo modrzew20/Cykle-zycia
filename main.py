@@ -13,7 +13,7 @@ from Rent import Rent
 if __name__ == "__main__":
     dbr = DaoRoom("database.sqlite")
     g = GuestHouse(2,2,15.0,2,2,True,False)
-    # dbr.write(g)
+    #dbr.write(g)
     result = dbr.read()
     for row in result:
         print(row)

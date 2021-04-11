@@ -9,9 +9,12 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
-import DaoClient,DaoRoom
+import DaoClient, DaoRoom
+from Apartment import Apartment
 
 class Ui_MainWindow(object):
+
+
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(1200, 700)
@@ -26,8 +29,8 @@ class Ui_MainWindow(object):
                                  color:white;
                                  }
                                  """
-                                 
-                                 
+
+
                                  "\n"
                                  "#widget{\n"
                                  "background:url(./logo.svg)\n"
@@ -220,6 +223,8 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_main)
         self.page_newrent = QtWidgets.QWidget()
         self.page_newrent.setObjectName("page_newrent")
+
+        ############################     NEW RESERVATION    #################
         self.newrent = QtWidgets.QFrame(self.page_newrent)
         self.newrent.setGeometry(QtCore.QRect(360, 50, 651, 551))
         self.newrent.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -289,11 +294,17 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_newrent)
         self.page_newroom = QtWidgets.QWidget()
         self.page_newroom.setObjectName("page_newroom")
+
+        ##################################     NEW ROOM     #######################################################
+
         self.newroom = QtWidgets.QFrame(self.page_newroom)
         self.newroom.setGeometry(QtCore.QRect(360, 50, 651, 551))
         self.newroom.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.newroom.setFrameShadow(QtWidgets.QFrame.Raised)
         self.newroom.setObjectName("newroom")
+        self.label = QtWidgets.QLabel(self.newroom)
+        self.label.setGeometry(QtCore.QRect(464, 150, 61, 21))
+        self.label.setObjectName("label")
         self.title_2 = QtWidgets.QLabel(self.newroom)
         self.title_2.setGeometry(QtCore.QRect(50, 20, 550, 41))
         self.title_2.setObjectName("title_2")
@@ -309,6 +320,8 @@ class Ui_MainWindow(object):
         self.lineEdit_10 = QtWidgets.QLineEdit(self.newroom)
         self.lineEdit_10.setGeometry(QtCore.QRect(310, 140, 141, 41))
         self.lineEdit_10.setObjectName("lineEdit_10")
+
+        ##################################     NEW APARTMENT     #######################################################
         self.tabWidget_2 = QtWidgets.QTabWidget(self.newroom)
         self.tabWidget_2.setGeometry(QtCore.QRect(20, 210, 611, 321))
         self.tabWidget_2.setObjectName("tabWidget_2")
@@ -337,6 +350,8 @@ class Ui_MainWindow(object):
         self.spinBox_5.setGeometry(QtCore.QRect(260, 100, 61, 41))
         self.spinBox_5.setObjectName("spinBox_5")
         self.tabWidget_2.addTab(self.tab_3, "")
+
+        ##################################     NEW NORMALROOM     #######################################################
         self.tab_6 = QtWidgets.QWidget()
         self.tab_6.setObjectName("tab_6")
         self.label_16 = QtWidgets.QLabel(self.tab_6)
@@ -356,6 +371,8 @@ class Ui_MainWindow(object):
         self.spinBox_2.setGeometry(QtCore.QRect(260, 80, 61, 41))
         self.spinBox_2.setObjectName("spinBox_2")
         self.tabWidget_2.addTab(self.tab_6, "")
+
+        ##################################     NEW GUESTHOUSE     #######################################################
         self.tab_5 = QtWidgets.QWidget()
         self.tab_5.setObjectName("tab_5")
         self.label_18 = QtWidgets.QLabel(self.tab_5)
@@ -393,9 +410,9 @@ class Ui_MainWindow(object):
         self.checkBox_3.setGeometry(QtCore.QRect(450, 190, 81, 20))
         self.checkBox_3.setObjectName("checkBox_3")
         self.tabWidget_2.addTab(self.tab_5, "")
-        self.label = QtWidgets.QLabel(self.newroom)
-        self.label.setGeometry(QtCore.QRect(464, 150, 61, 21))
-        self.label.setObjectName("label")
+
+        ##########################      DATA FROM BASE      ###############################
+
         self.stackedWidget.addWidget(self.page_newroom)
         self.page_exist = QtWidgets.QWidget()
         self.page_exist.setObjectName("page_exist")
@@ -448,6 +465,7 @@ class Ui_MainWindow(object):
         self.btn_addreserv_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_newrent))
         self.btn_actualreserv_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_exist))
         self.btn_addroom_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_newroom))
+        self.buttonBox_2.accepted.connect(self.create_newapartment)
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
@@ -503,18 +521,20 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "  POKOJE  "))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "  KLIENCI  "))
 
+    def create_newapartment(self):
+        flat_number = self.lineEdit_9
+        price = self.lineEdit_10
+        beds = self.spinBox_3.value()
+        doublebeds = self.spinBox_4.value()
+        bathroom = self.spinBox_5.value()
+        nr = Apartment(flat_number, beds, price, doublebeds, bathroom)
+        dbr.write(nr)
 
 if __name__ == "__main__":
     import sys
-
-    # dbc = DaoClient("database.sqlite")
-    # dbr = DaoRoom("database.sqlite")
-
-
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     ui = Ui_MainWindow()
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
-
