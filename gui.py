@@ -9,11 +9,17 @@
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets, Qt
-import DaoClient, DaoRoom
 from Apartment import Apartment
+from DaoRent import DaoRent
+from DaoClient import DaoClient
+from DaoRoom import  DaoRoom
 
 class Ui_MainWindow(object):
 
+    def __init__(self,dbr):
+        self.dbroom = DaoRoom(dbr)
+        self.dbclient = DaoClient(dbr)
+        self.dbrent = DaoRent(dbr)
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
@@ -466,6 +472,8 @@ class Ui_MainWindow(object):
         self.btn_actualreserv_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_exist))
         self.btn_addroom_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_newroom))
         self.buttonBox_2.accepted.connect(self.create_newapartment)
+        self.buttonBox_2.rejected.connect(self.reset_newapartment)
+
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
@@ -522,19 +530,28 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "  KLIENCI  "))
 
     def create_newapartment(self):
-        flat_number = self.lineEdit_9
-        price = self.lineEdit_10
+        flat_number = self.lineEdit_9.text()
+        price = self.lineEdit_10.text()
         beds = self.spinBox_3.value()
         doublebeds = self.spinBox_4.value()
         bathroom = self.spinBox_5.value()
         nr = Apartment(flat_number, beds, price, doublebeds, bathroom)
-        dbr.write(nr)
+        self.dbroom.write(nr)
+        self.reset_newapartment()
+
+    def reset_newapartment(self):
+        self.lineEdit_9.setText("")
+        self.lineEdit_10.setText("")
+        self.spinBox_3.setValue(0)
+        self.spinBox_4.setValue(0)
+        self.spinBox_5.setValue(0)
 
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
-    ui = Ui_MainWindow()
+    dbq = "database.sqlite"
+    ui = Ui_MainWindow(dbq)
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
