@@ -12,11 +12,14 @@ from PyQt5 import QtCore, QtGui, QtWidgets, Qt
 from Apartment import Apartment
 from DaoRent import DaoRent
 from DaoClient import DaoClient
-from DaoRoom import  DaoRoom
+from DaoRoom import DaoRoom
+from GuestHouse import GuestHouse
+from NormalRoom import NormalRoom
+
 
 class Ui_MainWindow(object):
 
-    def __init__(self,dbr):
+    def __init__(self, dbr):
         self.dbroom = DaoRoom(dbr)
         self.dbclient = DaoClient(dbr)
         self.dbrent = DaoRent(dbr)
@@ -433,10 +436,10 @@ class Ui_MainWindow(object):
         self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
-        self.verticalScrollBar_3 = QtWidgets.QScrollBar(self.gridLayoutWidget)
-        self.verticalScrollBar_3.setOrientation(QtCore.Qt.Vertical)
-        self.verticalScrollBar_3.setObjectName("verticalScrollBar_3")
-        self.gridLayout.addWidget(self.verticalScrollBar_3, 0, 0, 1, 1)
+        # self.verticalScrollBar_3 = QtWidgets.QScrollBar(self.gridLayoutWidget)
+        # self.verticalScrollBar_3.setOrientation(QtCore.Qt.Vertical)
+        # self.verticalScrollBar_3.setObjectName("verticalScrollBar_3")
+        # self.gridLayout.addWidget(self.verticalScrollBar_3, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
@@ -446,10 +449,10 @@ class Ui_MainWindow(object):
         self.gridLayout_2 = QtWidgets.QGridLayout(self.gridLayoutWidget_2)
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_2.setObjectName("gridLayout_2")
-        self.verticalScrollBar_2 = QtWidgets.QScrollBar(self.gridLayoutWidget_2)
-        self.verticalScrollBar_2.setOrientation(QtCore.Qt.Vertical)
-        self.verticalScrollBar_2.setObjectName("verticalScrollBar_2")
-        self.gridLayout_2.addWidget(self.verticalScrollBar_2, 0, 0, 1, 1)
+        # self.verticalScrollBar_2 = QtWidgets.QScrollBar(self.gridLayoutWidget_2)
+        # self.verticalScrollBar_2.setOrientation(QtCore.Qt.Vertical)
+        # self.verticalScrollBar_2.setObjectName("verticalScrollBar_2")
+        # self.gridLayout_2.addWidget(self.verticalScrollBar_2, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tab_2, "")
         self.tab_4 = QtWidgets.QWidget()
         self.tab_4.setObjectName("tab_4")
@@ -459,27 +462,51 @@ class Ui_MainWindow(object):
         self.gridLayout_3 = QtWidgets.QGridLayout(self.gridLayoutWidget_3)
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_3.setObjectName("gridLayout_3")
-        self.verticalScrollBar = QtWidgets.QScrollBar(self.gridLayoutWidget_3)
-        self.verticalScrollBar.setOrientation(QtCore.Qt.Vertical)
-        self.verticalScrollBar.setObjectName("verticalScrollBar")
-        self.gridLayout_3.addWidget(self.verticalScrollBar, 0, 0, 1, 1)
+        # self.verticalScrollBar = QtWidgets.QScrollBar(self.gridLayoutWidget_3)
+        # self.verticalScrollBar.setOrientation(QtCore.Qt.Vertical)
+        # self.verticalScrollBar.setObjectName("verticalScrollBar")
+        # self.gridLayout_3.addWidget(self.verticalScrollBar, 0, 0, 1, 1)
         self.tabWidget.addTab(self.tab_4, "")
         self.stackedWidget.addWidget(self.page_exist)
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.btn_main_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_main))
         self.btn_addreserv_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_newrent))
-        self.btn_actualreserv_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_exist))
+        self.btn_actualreserv_page.clicked.connect(self.show_current)
         self.btn_addroom_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_newroom))
         self.buttonBox_2.accepted.connect(self.create_newapartment)
-        self.buttonBox_2.rejected.connect(self.reset_newapartment)
-
+        self.buttonBox_2.rejected.connect(self.reset_newroom)
+        self.buttonBox_3.accepted.connect(self.create_newnormalroom)
+        self.buttonBox_3.rejected.connect(self.reset_newroom)
+        self.buttonBox_4.accepted.connect(self.create_newguesthouse)
+        self.buttonBox_4.rejected.connect(self.reset_newroom)
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
-        self.tabWidget_2.setCurrentIndex(2)
+        self.tabWidget_2.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def show_current(self):
+        self.stackedWidget.setCurrentWidget(self.page_exist)
+
+        result = self.dbroom.read()
+        for i in range(len(result)):
+            for j in range(len(result[0])):
+                label = QtWidgets.QLabel(self.gridLayoutWidget_2)
+                label.setStyleSheet("border-style: solid;border-width: 1px;")
+                if i == 0:
+                    if j == 0: label.setText("Rodzaj")
+                    if j == 1: label.setText("Numer")
+                    if j == 2: label.setText("Łóżka pojedyncze")
+                    if j == 3: label.setText("Cena")
+                    if j == 4: label.setText("Łóżka podwojne")
+                    if j == 5: label.setText("Łazienki")
+                    if j == 6: label.setText("Kuchnia")
+                    if j == 7: label.setText("Basen")
+                else:
+                    label.setText(str(result[i][j]))
+                self.gridLayout_2.addWidget(label, i, j, 1, 1)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -537,17 +564,50 @@ class Ui_MainWindow(object):
         bathroom = self.spinBox_5.value()
         nr = Apartment(flat_number, beds, price, doublebeds, bathroom)
         self.dbroom.write(nr)
-        self.reset_newapartment()
+        self.reset_newroom()
 
-    def reset_newapartment(self):
+    def create_newnormalroom(self):
+        flat_number = self.lineEdit_9.text()
+        price = self.lineEdit_10.text()
+        beds = self.spinBox_2.value()
+        private_bathroom = False
+        if self.checkBox == 2:
+            private_bathroom = True
+        nr = NormalRoom(flat_number, beds, price, private_bathroom)
+        self.dbroom.write(nr)
+        self.reset_newroom()
+
+    def create_newguesthouse(self):
+        flat_number = self.lineEdit_9.text()
+        price = self.lineEdit_10.text()
+        beds = self.spinBox.value()
+        doublebeds = self.spinBox_6.value()
+        bathrooms = self.spinBox_7.value()
+        swimmingpool = False
+        if self.checkBox_2 == 2:
+            swimmingpool = True
+        kitchen = False
+        if self.checkBox_3 == 2:
+            kitchen = True
+        nr = GuestHouse(flat_number, beds, price, doublebeds, bathrooms, kitchen, swimmingpool)
+        self.dbroom.write(nr)
+        self.reset_newroom()
+
+    def reset_newroom(self):
         self.lineEdit_9.setText("")
         self.lineEdit_10.setText("")
         self.spinBox_3.setValue(0)
         self.spinBox_4.setValue(0)
         self.spinBox_5.setValue(0)
+        self.spinBox_2.setValue(0)
+        self.spinBox.setValue(0)
+        self.spinBox_6.setValue(0)
+        self.spinBox_7.setValue(0)
+
 
 if __name__ == "__main__":
     import sys
+
     app = QtWidgets.QApplication(sys.argv)
     MainWindow = QtWidgets.QMainWindow()
     dbq = "database.sqlite"

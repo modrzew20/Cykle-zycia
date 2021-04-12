@@ -5,7 +5,7 @@ from Apartment import Apartment
 from NormalRoom import NormalRoom
 from GuestHouse import GuestHouse
 from DaoMethods import create_connection, create_table
-
+import copy
 
 class DaoRoom(Dao):
     def __init__(self, db_file):
@@ -74,18 +74,40 @@ class DaoRoom(Dao):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
         cur.execute("SELECT * FROM rooms")
+
         result = []
         rows = cur.fetchall()
+        r = [0] * 8
+        print(rows)
         for row in rows:
-            if row[-1] == 1:    # Apartment
-                result.append(Apartment(row[0], row[1], row[2], row[3], row[4]))
-            elif row[-1] == 2:    # NormalRoom
-                result.append(NormalRoom(row[0], row[1], row[2], False if row[3] == 0 else True))
+            if row[-1] == 1:  # Apartment
+                r[0]="Apartament"
+            elif row[-1] == 2:  # NormalRoom
+                r[0]="Pokoj"
             elif row[-1] == 3:  # GuestHouse
-                result.append(GuestHouse(row[0], row[1], row[2], row[3], row[4], True if row[5] == 1 else False,
-                                         True if row[6] else False))
+                r[0] = "Dom letniskowy"
+            r[1] = row[0]
+            r[2] = row[1]
+            r[3] = row[2]
+            r[4] = row[3]
+            r[5] = row[4]
+            r[6] = row[5]
+            r[7] = row[6]
+            result.append(copy.deepcopy(r))
         conn.close()
         return result
+        # result = []
+        # rows = cur.fetchall()
+        # for row in rows:
+        #     if row[-1] == 1:    # Apartment
+        #         result.append(Apartment(row[0], row[1], row[2], row[3], row[4]))
+        #     elif row[-1] == 2:    # NormalRoom
+        #         result.append(NormalRoom(row[0], row[1], row[2], False if row[3] == 0 else True))
+        #     elif row[-1] == 3:  # GuestHouse
+        #         result.append(GuestHouse(row[0], row[1], row[2], row[3], row[4], True if row[5] == 1 else False,
+        #                                  True if row[6] else False))
+        # conn.close()
+        # return result
 
     def read_id(self, Id):
         conn = create_connection(self.db_file)
