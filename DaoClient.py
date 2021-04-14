@@ -69,8 +69,12 @@ class DaoClient(Dao):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
         cur.execute("SELECT * FROM clients WHERE pesel = ?", (pesel,))
-        result = []
+
         rows = cur.fetchall()
+        if len(rows)==0:
+            conn.close()
+            return False
+
         client_type = None
         for row in rows:
             if row[-1] == 1:  # Default

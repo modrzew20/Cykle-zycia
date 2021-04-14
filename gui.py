@@ -15,7 +15,8 @@ from DaoClient import DaoClient
 from DaoRoom import DaoRoom
 from GuestHouse import GuestHouse
 from NormalRoom import NormalRoom
-
+from Client import  Client
+from ClientType import Default
 
 class Ui_MainWindow(object):
 
@@ -480,12 +481,41 @@ class Ui_MainWindow(object):
         self.buttonBox_3.rejected.connect(self.reset_newroom)
         self.buttonBox_4.accepted.connect(self.create_newguesthouse)
         self.buttonBox_4.rejected.connect(self.reset_newroom)
+        self.lPesel.textChanged.connect(self.check_exits_client)
+        self.buttonBox.accepted.connect(self.add_new_reservation)
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def check_exits_client(self):
+        if len(self.lPesel.text()) == 11:
+            result = self.dbclient.read_id(self.lPesel.text())
+            if result != False:
+                 self.lName.setText(result.firstName)
+                 self.lSurname.setText(result.lastName)
+                 self.lCity.setText(result.city)
+                 self.lStreet.setText(result.street)
+                # self.lNFlat.setText(result.number)
+
+
+    def add_new_reservation(self):
+
+        c = self.dbclient.read_id(self.lPesel.text())
+        if c == False:
+            name = self.lName.text()
+            surname = self.lSurname.text()
+            pesel = self.lPesel.text()
+            city = self.lCity.text()
+            street = self.lStreet.text()
+            number = self.lNFlat.text()
+            c = Client(name,surname,pesel,city,street,number,Default())
+            self.dbclient.write(c)
+
+
+
 
     def show_current(self):
         self.stackedWidget.setCurrentWidget(self.page_exist)

@@ -7,3 +7,4 @@ class Client:
         self.street = street
         self.number = number
         self.clientType = clientType
+
