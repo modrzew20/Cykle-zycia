@@ -7,6 +7,7 @@ from GuestHouse import GuestHouse
 from DaoMethods import create_connection, create_table
 import copy
 
+
 class DaoRoom(Dao):
     def __init__(self, db_file):
         self.db_file = db_file
@@ -23,8 +24,6 @@ class DaoRoom(Dao):
                                 ); """
         create_table(conn, sql_create_room_table)
         conn.close()
-
-
 
     def write(self, room):
         conn = create_connection(self.db_file)
@@ -81,9 +80,9 @@ class DaoRoom(Dao):
         print(rows)
         for row in rows:
             if row[-1] == 1:  # Apartment
-                r[0]="Apartament"
+                r[0] = "Apartament"
             elif row[-1] == 2:  # NormalRoom
-                r[0]="Pokoj"
+                r[0] = "Pokoj"
             elif row[-1] == 3:  # GuestHouse
                 r[0] = "Dom letniskowy"
             r[1] = row[0]
@@ -113,16 +112,19 @@ class DaoRoom(Dao):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
         cur.execute("SELECT * FROM rooms WHERE id = ?", (Id,))
-        result = []
         rows = cur.fetchall()
+        if len(rows) == 0:
+            conn.close()
+            return False
+
         for row in rows:
             if row[-1] == 1:  # Apartment
-                result.append(Apartment(row[0], row[1], row[2], row[3], row[4]))
+                result = Apartment(row[0], row[1], row[2], row[3], row[4])
             elif row[-1] == 2:  # NormalRoom
-                result.append(NormalRoom(row[0], row[1], row[2], False if row[3] == 0 else True))
+                result = NormalRoom(row[0], row[1], row[2], False if row[3] == 0 else True)
             elif row[-1] == 3:  # GuestHouse
-                result.append(GuestHouse(row[0], row[1], row[2], row[3], row[4], True if row[5] == 1 else False,
-                                         True if row[6] else False))
+                result = GuestHouse(row[0], row[1], row[2], row[3], row[4], True if row[5] == 1 else False,
+                                    True if row[6] else False)
         conn.close()
         return result
 
