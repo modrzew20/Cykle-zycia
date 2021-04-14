@@ -47,11 +47,8 @@ class DaoRent(Dao):
         rows = cur.fetchall()
         r = [0] * 5
         for row in rows:
-            r[0]=row[0]
-            r[1]=row[1]
-            r[2]=row[2]
-            r[3]=row[3]
-            r[4]=row[4]
+            for j in range(5):
+                r[j] = row[j]
             result.append(copy.deepcopy(r))
         conn.close()
         return result

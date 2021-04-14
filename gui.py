@@ -15,7 +15,7 @@ from DaoClient import DaoClient
 from DaoRoom import DaoRoom
 from GuestHouse import GuestHouse
 from NormalRoom import NormalRoom
-from Client import  Client
+from Client import Client
 from ClientType import Default
 from Rent import Rent
 
@@ -496,12 +496,11 @@ class Ui_MainWindow(object):
         if len(self.lPesel.text()) == 11:
             result = self.dbclient.read_id(self.lPesel.text())
             if result != False:
-                 self.lName.setText(result.firstName)
-                 self.lSurname.setText(result.lastName)
-                 self.lCity.setText(result.city)
-                 self.lStreet.setText(result.street)
-                # self.lNFlat.setText(result.number)
-
+                self.lName.setText(result.firstName)
+                self.lSurname.setText(result.lastName)
+                self.lCity.setText(result.city)
+                self.lStreet.setText(result.street)
+            # self.lNFlat.setText(result.number)
 
     def add_new_reservation(self):
 
@@ -513,24 +512,18 @@ class Ui_MainWindow(object):
             city = self.lCity.text()
             street = self.lStreet.text()
             number = self.lNFlat.text()
-            client = Client(name,surname,pesel,city,street,number,Default())
+            client = Client(name, surname, pesel, city, street, number, Default())
             self.dbclient.write(client)
 
         room = self.dbroom.read_id(self.lRoom.value())
-        if room != False :
-            self.dbrent.write(Rent(None,datetime(2020, 4, 1), datetime.now(),client,room))
-            res = self.dbrent.read()
-            for row in res:
-                print(row)
-                print(row.client)
-                print(row.beginRent)
-                print(row.room)
+        if room != False:
+            self.dbrent.write(Rent(None, datetime(2020, 4, 1), datetime.now(), client, room))
 
     def show_current(self):
         self.stackedWidget.setCurrentWidget(self.page_exist)
 
         result = self.dbroom.read()
-        for i in range(len(result)+1):
+        for i in range(len(result) + 1):
             for j in range(len(result[0])):
                 label = QtWidgets.QLabel(self.gridLayoutWidget_2)
                 label.setStyleSheet("border-style: solid;border-width: 1px;")
@@ -544,12 +537,11 @@ class Ui_MainWindow(object):
                     if j == 6: label.setText("Kuchnia")
                     if j == 7: label.setText("Basen")
                 else:
-                    label.setText(str(result[i-1][j]))
+                    label.setText(str(result[i - 1][j]))
                 self.gridLayout_2.addWidget(label, i, j, 1, 1)
 
-
         result_client = self.dbclient.read()
-        for i in range(len(result_client)+1):
+        for i in range(len(result_client) + 1):
             for j in range(len(result_client[0])):
                 label = QtWidgets.QLabel(self.gridLayoutWidget_3)
                 label.setStyleSheet("border-style: solid;border-width: 1px;")
@@ -562,11 +554,11 @@ class Ui_MainWindow(object):
                     if j == 5: label.setText("Numer")
                     if j == 6: label.setText("Typ klienta")
                 else:
-                    label.setText(str(result_client[i-1][j]))
+                    label.setText(str(result_client[i - 1][j]))
                 self.gridLayout_3.addWidget(label, i, j, 1, 1)
 
         result_rent = self.dbrent.read()
-        for i in range(len(result_rent)+1):
+        for i in range(len(result_rent) + 1):
             for j in range(len(result_rent[0])):
                 label = QtWidgets.QLabel(self.gridLayoutWidget)
                 label.setStyleSheet("border-style: solid;border-width: 1px;")
@@ -577,9 +569,8 @@ class Ui_MainWindow(object):
                     if j == 3: label.setText("Pesel")
                     if j == 4: label.setText("Nr. pokoju")
                 else:
-                    label.setText(str(result_rent[i-1][j]))
+                    label.setText(str(result_rent[i - 1][j]))
                 self.gridLayout.addWidget(label, i, j, 1, 1)
-
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

@@ -54,21 +54,18 @@ class DaoClient(Dao):
         client_type = None
         r= [0] * 7
         for row in rows:
-            if row[-1] == 1:    # Default
-                client_type = Default()
-            elif row[-1] == 2:    # Silver
-                client_type = Silver()
-            elif row[-1] == 3:  # Gold
-                client_type = Gold()
-            elif row[-1] == 3:  # Platinum
-                client_type = Platinum()
-            r[0]=row[1]
-            r[1]=row[2]
-            r[2]=row[3]
-            r[3]=row[4]
-            r[4]=row[5]
-            r[5]=row[6]
-            r[6]=row[-1]
+            for j in range(7):
+                if j == 6:
+                    if row[6] == 1:    # Default
+                        r[6] = "Default"
+                    elif row[6] == 2:    # Silver
+                        r[6] = "Silver"
+                    elif row[6] == 3:  # Gold
+                        r[6] = "Gold"
+                    elif row[6] == 4:  # Platinum
+                        r[6] = "Platinum"
+                else:
+                    r[j] = row[j]
             result.append(copy.deepcopy(r))
         conn.close()
         return result
@@ -79,7 +76,7 @@ class DaoClient(Dao):
         cur.execute("SELECT * FROM clients WHERE pesel = ?", (pesel,))
 
         rows = cur.fetchall()
-        if len(rows)==0:
+        if len(rows) == 0:
             conn.close()
             return False
 

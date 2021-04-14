@@ -84,13 +84,8 @@ class DaoRoom(Dao):
                 r[0] = "Pokoj"
             elif row[-1] == 3:  # GuestHouse
                 r[0] = "Dom letniskowy"
-            r[1] = row[0]
-            r[2] = row[1]
-            r[3] = row[2]
-            r[4] = row[3]
-            r[5] = row[4]
-            r[6] = row[5]
-            r[7] = row[6]
+            for j in range(7):
+                r[j+1] = row[j]
             result.append(copy.deepcopy(r))
         conn.close()
         return result
