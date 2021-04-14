@@ -530,7 +530,7 @@ class Ui_MainWindow(object):
         self.stackedWidget.setCurrentWidget(self.page_exist)
 
         result = self.dbroom.read()
-        for i in range(len(result)):
+        for i in range(len(result)+1):
             for j in range(len(result[0])):
                 label = QtWidgets.QLabel(self.gridLayoutWidget_2)
                 label.setStyleSheet("border-style: solid;border-width: 1px;")
@@ -544,8 +544,42 @@ class Ui_MainWindow(object):
                     if j == 6: label.setText("Kuchnia")
                     if j == 7: label.setText("Basen")
                 else:
-                    label.setText(str(result[i][j]))
+                    label.setText(str(result[i-1][j]))
                 self.gridLayout_2.addWidget(label, i, j, 1, 1)
+
+
+        result_client = self.dbclient.read()
+        for i in range(len(result_client)+1):
+            for j in range(len(result_client[0])):
+                label = QtWidgets.QLabel(self.gridLayoutWidget_3)
+                label.setStyleSheet("border-style: solid;border-width: 1px;")
+                if i == 0:
+                    if j == 0: label.setText("Imie")
+                    if j == 1: label.setText("Nazwisko")
+                    if j == 2: label.setText("Pesel")
+                    if j == 3: label.setText("Miasto")
+                    if j == 4: label.setText("Ulica")
+                    if j == 5: label.setText("Numer")
+                    if j == 6: label.setText("Typ klienta")
+                else:
+                    label.setText(str(result_client[i-1][j]))
+                self.gridLayout_3.addWidget(label, i, j, 1, 1)
+
+        result_rent = self.dbrent.read()
+        for i in range(len(result_rent)+1):
+            for j in range(len(result_rent[0])):
+                label = QtWidgets.QLabel(self.gridLayoutWidget)
+                label.setStyleSheet("border-style: solid;border-width: 1px;")
+                if i == 0:
+                    if j == 0: label.setText("ID")
+                    if j == 1: label.setText("Poczatek")
+                    if j == 2: label.setText("Koniec")
+                    if j == 3: label.setText("Pesel")
+                    if j == 4: label.setText("Nr. pokoju")
+                else:
+                    label.setText(str(result_rent[i-1][j]))
+                self.gridLayout.addWidget(label, i, j, 1, 1)
+
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate

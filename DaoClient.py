@@ -4,7 +4,7 @@ from Client import Client
 from Dao import Dao
 from DaoMethods import create_connection, create_table
 from ClientType import *
-
+import copy
 
 class DaoClient(Dao):
     def __init__(self, db_file):
@@ -52,6 +52,7 @@ class DaoClient(Dao):
         result = []
         rows = cur.fetchall()
         client_type = None
+        r= [0] * 7
         for row in rows:
             if row[-1] == 1:    # Default
                 client_type = Default()
@@ -61,7 +62,14 @@ class DaoClient(Dao):
                 client_type = Gold()
             elif row[-1] == 3:  # Platinum
                 client_type = Platinum()
-            result.append(Client(row[1], row[2], row[3], row[4], row[5], row[6], client_type))
+            r[0]=row[1]
+            r[1]=row[2]
+            r[2]=row[3]
+            r[3]=row[4]
+            r[4]=row[5]
+            r[5]=row[6]
+            r[6]=row[-1]
+            result.append(copy.deepcopy(r))
         conn.close()
         return result
 

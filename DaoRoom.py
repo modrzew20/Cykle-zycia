@@ -77,7 +77,6 @@ class DaoRoom(Dao):
         result = []
         rows = cur.fetchall()
         r = [0] * 8
-        print(rows)
         for row in rows:
             if row[-1] == 1:  # Apartment
                 r[0] = "Apartament"

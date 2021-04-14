@@ -8,7 +8,7 @@ from DaoMethods import create_connection, create_table
 from DaoClient import DaoClient
 from DaoRoom import DaoRoom
 from Room import Room
-
+import copy
 
 class DaoRent(Dao):
     def __init__(self, db_file):
@@ -45,13 +45,14 @@ class DaoRent(Dao):
         cur.execute("SELECT * FROM rents")
         result = []
         rows = cur.fetchall()
+        r = [0] * 5
         for row in rows:
-            dbc = DaoClient("database.sqlite")
-            dbr = DaoRoom("database.sqlite")
-            c = dbc.read_id(row[-2])
-            r = dbr.read_id(row[-1])
-            result.append(Rent(row[0], date.fromisoformat(row[1]), date.fromisoformat(row[2]), c, r))
-
+            r[0]=row[0]
+            r[1]=row[1]
+            r[2]=row[2]
+            r[3]=row[3]
+            r[4]=row[4]
+            result.append(copy.deepcopy(r))
         conn.close()
         return result
 
