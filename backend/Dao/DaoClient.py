@@ -1,9 +1,7 @@
-import sqlite3
-
-from Client import Client
-from Dao import Dao
-from DaoMethods import create_connection, create_table
-from ClientType import *
+from backend.src.Client import Client
+from backend.Dao.Dao import Dao
+from backend.Dao.DaoMethods import create_connection, create_table
+from backend.src.ClientType import *
 import copy
 
 class DaoClient(Dao):

@@ -1,7 +1,7 @@
 /venv/
-/images.qrc
-/icony.ai
+/frontend/images/images.qrc
+/frontend/images/icony.ai
 /.idea
 /desktop.ini
 /__pycache__
-/database.sqlite
+/backend/database.sqlite

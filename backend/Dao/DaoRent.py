@@ -1,13 +1,5 @@
-import sqlite3
-from datetime import date
-
-from Client import Client
-from Rent import Rent
-from Dao import Dao
-from DaoMethods import create_connection, create_table
-from DaoClient import DaoClient
-from DaoRoom import DaoRoom
-from Room import Room
+from backend.Dao.Dao import Dao
+from backend.Dao.DaoMethods import create_connection, create_table
 import copy
 
 class DaoRent(Dao):

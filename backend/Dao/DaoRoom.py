@@ -1,10 +1,8 @@
-import sqlite3
-
-from Dao import Dao
-from Apartment import Apartment
-from NormalRoom import NormalRoom
-from GuestHouse import GuestHouse
-from DaoMethods import create_connection, create_table
+from backend.Dao.Dao import Dao
+from backend.src.Apartment import Apartment
+from backend.src.NormalRoom import NormalRoom
+from backend.src.GuestHouse import GuestHouse
+from backend.Dao.DaoMethods import create_connection, create_table
 import copy
 
 

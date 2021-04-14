@@ -1,4 +1,4 @@
-from Room import Room
+from backend.src.Room import Room
 
 
 class GuestHouse(Room):
