@@ -88,7 +88,7 @@ class DaoClient(Dao):
                 client_type = Gold()
             elif row[-1] == 3:  # Platinum
                 client_type = Platinum()
-            result = Client(row[1], row[2], row[3], row[4], row[5], row[6], client_type)
+            result = Client(row[0], row[1], row[2], row[3], row[4], row[5], client_type)
 
         conn.close()
         return result

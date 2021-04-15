@@ -500,7 +500,7 @@ class Ui_MainWindow(object):
                 self.lSurname.setText(result.lastName)
                 self.lCity.setText(result.city)
                 self.lStreet.setText(result.street)
-            # self.lNFlat.setText(result.number)
+                self.lNFlat.setText(result.number)
 
     def add_new_reservation(self):
 
