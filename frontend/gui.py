@@ -16,9 +16,8 @@ from backend.Dao.DaoRoom import DaoRoom
 from backend.src.GuestHouse import GuestHouse
 from backend.src.NormalRoom import NormalRoom
 from backend.src.Client import Client
-from backend.src.ClientType import Default, Silver, Gold , Platinum
+from backend.src.ClientType import Default, Silver, Gold, Platinum
 from backend.src.Rent import Rent
-
 
 
 class Ui_MainWindow(object):
@@ -134,6 +133,16 @@ class Ui_MainWindow(object):
                                  "    background:white;\n"
                                  "}\n"
                                  "\n"
+
+                                 "QComboBox{"
+                                 "border: 2px solid gray;"
+                                 "background-color:rgb(198, 140, 255);"
+                                 "color: black;"
+                                 "border-radius: 10px;\n"
+                                 "font-size: 16px;\n"
+                                 "}"
+
+
                                  "QLineEdit{ \n"
                                  "background-color:rgb(198, 140, 255);\n"
                                  "border: 2px solid gray;\n"
@@ -223,7 +232,6 @@ class Ui_MainWindow(object):
         self.btn_main_page.setIconSize(QtCore.QSize(30, 30))
         self.btn_main_page.setObjectName("btn_main_page")
 
-
         self.pages = QtWidgets.QFrame(self.main)
         self.pages.setGeometry(QtCore.QRect(49, 49, 1151, 651))
         self.pages.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -306,7 +314,7 @@ class Ui_MainWindow(object):
         self.radioButton_3.setGeometry(QtCore.QRect(400, 30, 140, 20))
         self.radioButton_3.setObjectName("radioButton_3")
         self.lRoom = QtWidgets.QComboBox(self.newrent)
-        self.lRoom.setGeometry(QtCore.QRect(270, 400, 120, 41))
+        self.lRoom.setGeometry(QtCore.QRect(270, 400, 60, 41))
         self.lRoom.setObjectName("lRoom")
         self.stackedWidget.addWidget(self.page_newrent)
         self.page_newroom = QtWidgets.QWidget()
@@ -499,8 +507,10 @@ class Ui_MainWindow(object):
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def show_newrent_page(self):
+        self.lRoom.clear()
         self.lRoom.addItems(self.dbroom.read_available_room())
         self.stackedWidget.setCurrentWidget(self.page_newrent)
+        self.radioButton_3.setChecked(True)
 
     def check_exits_client(self):
         if len(self.lPesel.text()) == 11:
@@ -514,36 +524,36 @@ class Ui_MainWindow(object):
                 ctype = result.clientType
                 if type(ctype) == Silver:
                     self.radioButton_2.setChecked(True)
-                elif type(ctype) == Gold or type(ctype) == Platinum :
+                elif type(ctype) == Gold or type(ctype) == Platinum:
                     self.radioButton.setChecked(True)
                 else:
                     self.radioButton_3.setChecked(True)
 
-
-
     def add_new_reservation(self):
+        if len(self.lName.text()) != 0 and len(self.lSurname.text()) != 0 and len(self.lPesel.text()) == 11 and len(
+                self.lCity.text()) != 0 and len(self.lStreet.text()) != 0 and  len(self.lNFlat.text()) != 0 :
 
-        client = self.dbclient.read_id(self.lPesel.text())
-        if client == False:
-            name = self.lName.text()
-            surname = self.lSurname.text()
-            pesel = self.lPesel.text()
-            city = self.lCity.text()
-            street = self.lStreet.text()
-            number = self.lNFlat.text()
-            client = Client(name, surname, pesel, city, street, number, Default())
-            self.dbclient.write(client)
+            client = self.dbclient.read_id(self.lPesel.text())
+            if client == False:
+                name = self.lName.text()
+                surname = self.lSurname.text()
+                pesel = self.lPesel.text()
+                city = self.lCity.text()
+                street = self.lStreet.text()
+                number = self.lNFlat.text()
+                client = Client(name, surname, pesel, city, street, number, Default())
+                self.dbclient.write(client)
 
 
-        which = int( self.lRoom.currentText())
-        room = self.dbroom.read_id(which)
-        self.dbroom.delete(which)
-        if room != False:
-            self.dbrent.write(Rent(None, datetime(2020, 4, 1), datetime.now(), client, room))
-        room.available = 1
-        self.dbroom.write(room)
-        self.clear_new_reservation()
-        self.lRoom.removeItem(self.lRoom.currentIndex())
+            which = int(self.lRoom.currentText())
+            room = self.dbroom.read_id(which)
+            self.dbroom.delete(which)
+            if room != False:
+                self.dbrent.write(Rent(None, datetime(2020, 4, 1), datetime.now(), client, room))
+            room.available = 1
+            self.dbroom.write(room)
+            self.clear_new_reservation()
+            self.lRoom.removeItem(self.lRoom.currentIndex())
 
     def clear_new_reservation(self):
         self.lName.setText("")
@@ -565,7 +575,7 @@ class Ui_MainWindow(object):
             for j in range(len(result[0])):
                 label = QtWidgets.QLabel(self.gridLayoutWidget_2)
                 label.setStyleSheet("border-style: solid;border-width: 1px;")
-                if i == 0:#  id, beds, price, doubleBeds, bathRooms, kitchen, swimmingPool, roomType, available
+                if i == 0:  # id, beds, price, doubleBeds, bathRooms, kitchen, swimmingPool, roomType, available
                     if j == 0: label.setText("Rodzaj")
                     if j == 1: label.setText("Numer")
                     if j == 2: label.setText("Łóżka pojedyncze")
@@ -577,7 +587,6 @@ class Ui_MainWindow(object):
                 else:
                     label.setText(str(result[i - 1][j]))
                 self.gridLayout_2.addWidget(label, i, j, 1, 1)
-
 
         result_client = self.dbclient.read()
         for i in range(len(result_client) + 1):
@@ -666,7 +675,7 @@ class Ui_MainWindow(object):
         beds = self.spinBox_3.value()
         doublebeds = self.spinBox_5.value()
         bathroom = self.spinBox_4.value()
-        nr = Apartment(flat_number,0, beds, price, doublebeds, bathroom)
+        nr = Apartment(flat_number, 0, beds, price, doublebeds, bathroom)
         self.dbroom.write(nr)
         self.reset_newroom()
 
@@ -677,7 +686,7 @@ class Ui_MainWindow(object):
         private_bathroom = False
         if self.checkBox == 2:
             private_bathroom = True
-        nr = NormalRoom(flat_number,0, beds, price, private_bathroom)
+        nr = NormalRoom(flat_number, 0, beds, price, private_bathroom)
         self.dbroom.write(nr)
         self.reset_newroom()
 
@@ -693,7 +702,7 @@ class Ui_MainWindow(object):
         kitchen = False
         if self.checkBox_3 == 2:
             kitchen = True
-        nr = GuestHouse(flat_number,0 ,beds, price, doublebeds, bathrooms, kitchen, swimmingpool)
+        nr = GuestHouse(flat_number, 0, beds, price, doublebeds, bathrooms, kitchen, swimmingpool)
         self.dbroom.write(nr)
         self.reset_newroom()
 
