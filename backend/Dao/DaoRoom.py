@@ -18,7 +18,8 @@ class DaoRoom(Dao):
                                 bathRooms integer,
                                 kitchen integer,
                                 swimmingPool integer,
-                                roomType integer    
+                                roomType integer,
+                                available integer 
                                 ); """
         create_table(conn, sql_create_room_table)
         conn.close()
@@ -60,10 +61,10 @@ class DaoRoom(Dao):
         else:
             raise TypeError("Wrong object type")
 
-        sql = """ INSERT INTO rooms(id,beds,price,doubleBeds,bathRooms,kitchen,swimmingPool,roomType)
-                VALUES (?,?,?,?,?,?,?,?) """
+        sql = """ INSERT INTO rooms(id ,beds,price,doubleBeds,bathRooms,kitchen,swimmingPool,roomType,available)
+                VALUES (?,?,?,?,?,?,?,?,?) """
 
-        cur.execute(sql, (room.id, room.beds, room.price, doubleBeds, bathRooms, kitchen, swimmingPool, roomType))
+        cur.execute(sql, (room.id,room.beds, room.price, doubleBeds, bathRooms, kitchen, swimmingPool, roomType,room.available))
         conn.commit()
         conn.close()
 
@@ -76,29 +77,17 @@ class DaoRoom(Dao):
         rows = cur.fetchall()
         r = [0] * 8
         for row in rows:
-            if row[-1] == 1:  # Apartment
+            if row[-2] == 1:  # Apartment
                 r[0] = "Apartament"
-            elif row[-1] == 2:  # NormalRoom
+            elif row[-2] == 2:  # NormalRoom
                 r[0] = "Pokoj"
-            elif row[-1] == 3:  # GuestHouse
+            elif row[-2] == 3:  # GuestHouse
                 r[0] = "Dom letniskowy"
             for j in range(7):
                 r[j+1] = row[j]
             result.append(copy.deepcopy(r))
         conn.close()
         return result
-        # result = []
-        # rows = cur.fetchall()
-        # for row in rows:
-        #     if row[-1] == 1:    # Apartment
-        #         result.append(Apartment(row[0], row[1], row[2], row[3], row[4]))
-        #     elif row[-1] == 2:    # NormalRoom
-        #         result.append(NormalRoom(row[0], row[1], row[2], False if row[3] == 0 else True))
-        #     elif row[-1] == 3:  # GuestHouse
-        #         result.append(GuestHouse(row[0], row[1], row[2], row[3], row[4], True if row[5] == 1 else False,
-        #                                  True if row[6] else False))
-        # conn.close()
-        # return result
 
     def read_id(self, Id):
         conn = create_connection(self.db_file)
@@ -108,14 +97,14 @@ class DaoRoom(Dao):
         if len(rows) == 0:
             conn.close()
             return False
-
+     #  id, beds, price, doubleBeds, bathRooms, kitchen, swimmingPool, roomType, available
         for row in rows:
-            if row[-1] == 1:  # Apartment
-                result = Apartment(row[0], row[1], row[2], row[3], row[4])
-            elif row[-1] == 2:  # NormalRoom
-                result = NormalRoom(row[0], row[1], row[2], False if row[3] == 0 else True)
-            elif row[-1] == 3:  # GuestHouse
-                result = GuestHouse(row[0], row[1], row[2], row[3], row[4], True if row[5] == 1 else False,
+            if row[-2] == 1:  # Apartment
+                result = Apartment(row[0],row[-1], row[1], row[2], row[3], row[4])
+            elif row[-2] == 2:  # NormalRoom
+                result = NormalRoom(row[0],row[-1],row[1], row[2],  False if row[3] == 0 else True)
+            elif row[-2] == 3:  # GuestHouse
+                result = GuestHouse(row[0],row[-1],  row[1],row[2],  row[3], row[4], True if row[5] == 1 else False,
                                     True if row[6] else False)
         conn.close()
         return result

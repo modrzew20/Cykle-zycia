@@ -556,7 +556,7 @@ class Ui_MainWindow(object):
             for j in range(len(result[0])):
                 label = QtWidgets.QLabel(self.gridLayoutWidget_2)
                 label.setStyleSheet("border-style: solid;border-width: 1px;")
-                if i == 0:
+                if i == 0:#  id, beds, price, doubleBeds, bathRooms, kitchen, swimmingPool, roomType, available
                     if j == 0: label.setText("Rodzaj")
                     if j == 1: label.setText("Numer")
                     if j == 2: label.setText("Łóżka pojedyncze")
@@ -568,6 +568,7 @@ class Ui_MainWindow(object):
                 else:
                     label.setText(str(result[i - 1][j]))
                 self.gridLayout_2.addWidget(label, i, j, 1, 1)
+
 
         result_client = self.dbclient.read()
         for i in range(len(result_client) + 1):
@@ -653,9 +654,9 @@ class Ui_MainWindow(object):
         flat_number = self.lineEdit_9.text()
         price = self.lineEdit_10.text()
         beds = self.spinBox_3.value()
-        doublebeds = self.spinBox_4.value()
-        bathroom = self.spinBox_5.value()
-        nr = Apartment(flat_number, beds, price, doublebeds, bathroom)
+        doublebeds = self.spinBox_5.value()
+        bathroom = self.spinBox_4.value()
+        nr = Apartment(flat_number,0, beds, price, doublebeds, bathroom)
         self.dbroom.write(nr)
         self.reset_newroom()
 
@@ -666,7 +667,7 @@ class Ui_MainWindow(object):
         private_bathroom = False
         if self.checkBox == 2:
             private_bathroom = True
-        nr = NormalRoom(flat_number, beds, price, private_bathroom)
+        nr = NormalRoom(flat_number,0, beds, price, private_bathroom)
         self.dbroom.write(nr)
         self.reset_newroom()
 
@@ -682,7 +683,7 @@ class Ui_MainWindow(object):
         kitchen = False
         if self.checkBox_3 == 2:
             kitchen = True
-        nr = GuestHouse(flat_number, beds, price, doublebeds, bathrooms, kitchen, swimmingpool)
+        nr = GuestHouse(flat_number,0 ,beds, price, doublebeds, bathrooms, kitchen, swimmingpool)
         self.dbroom.write(nr)
         self.reset_newroom()
 
