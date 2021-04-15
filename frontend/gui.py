@@ -549,7 +549,7 @@ class Ui_MainWindow(object):
             room = self.dbroom.read_id(which)
             self.dbroom.delete(which)
             if room != False:
-                self.dbrent.write(Rent(None, datetime(2020, 4, 1), datetime.now(), client, room))
+                self.dbrent.write(Rent(None, datetime.now(),datetime(100, 1, 1), client, room))
             room.available = 1
             self.dbroom.write(room)
             self.clear_new_reservation()
@@ -618,7 +618,10 @@ class Ui_MainWindow(object):
                     if j == 3: label.setText("Pesel")
                     if j == 4: label.setText("Nr. pokoju")
                 else:
-                    label.setText(str(result_rent[i - 1][j]))
+                    if j == 2 and str(result_rent[i - 1][j]) == "0100-01-01":
+                        label.setText("W trakcie")
+                    else:
+                        label.setText(str(result_rent[i - 1][j]))
                 self.gridLayout.addWidget(label, i, j, 1, 1)
 
     def retranslateUi(self, MainWindow):
