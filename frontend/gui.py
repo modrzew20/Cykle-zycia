@@ -16,8 +16,9 @@ from backend.Dao.DaoRoom import DaoRoom
 from backend.src.GuestHouse import GuestHouse
 from backend.src.NormalRoom import NormalRoom
 from backend.src.Client import Client
-from backend.src.ClientType import Default
+from backend.src.ClientType import Default, Silver, Gold , Platinum
 from backend.src.Rent import Rent
+
 
 
 class Ui_MainWindow(object):
@@ -182,16 +183,9 @@ class Ui_MainWindow(object):
         self.btn_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.btn_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.btn_frame.setObjectName("btn_frame")
-        self.btn_main_page = QtWidgets.QPushButton(self.btn_frame)
-        self.btn_main_page.setGeometry(QtCore.QRect(10, 10, 51, 51))
-        self.btn_main_page.setText("")
-        icon = QtGui.QIcon()
-        icon.addPixmap(QtGui.QPixmap("./frontend/images/main.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
-        self.btn_main_page.setIcon(icon)
-        self.btn_main_page.setIconSize(QtCore.QSize(30, 30))
-        self.btn_main_page.setObjectName("btn_main_page")
+
         self.btn_addreserv_page = QtWidgets.QPushButton(self.btn_frame)
-        self.btn_addreserv_page.setGeometry(QtCore.QRect(10, 70, 51, 51))
+        self.btn_addreserv_page.setGeometry(QtCore.QRect(10, 30, 51, 51))
         self.btn_addreserv_page.setText("")
         icon1 = QtGui.QIcon()
         icon1.addPixmap(QtGui.QPixmap("./frontend/images/add.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -199,7 +193,7 @@ class Ui_MainWindow(object):
         self.btn_addreserv_page.setIconSize(QtCore.QSize(35, 35))
         self.btn_addreserv_page.setObjectName("btn_addreserv_page")
         self.btn_actualreserv_page = QtWidgets.QPushButton(self.btn_frame)
-        self.btn_actualreserv_page.setGeometry(QtCore.QRect(10, 130, 51, 51))
+        self.btn_actualreserv_page.setGeometry(QtCore.QRect(10, 90, 51, 51))
         self.btn_actualreserv_page.setText("")
         icon2 = QtGui.QIcon()
         icon2.addPixmap(QtGui.QPixmap("./frontend/images/reserv.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -207,7 +201,7 @@ class Ui_MainWindow(object):
         self.btn_actualreserv_page.setIconSize(QtCore.QSize(35, 35))
         self.btn_actualreserv_page.setObjectName("btn_actualreserv_page")
         self.btn_addroom_page = QtWidgets.QPushButton(self.btn_frame)
-        self.btn_addroom_page.setGeometry(QtCore.QRect(10, 190, 51, 51))
+        self.btn_addroom_page.setGeometry(QtCore.QRect(10, 150, 51, 51))
         self.btn_addroom_page.setText("")
         icon3 = QtGui.QIcon()
         icon3.addPixmap(QtGui.QPixmap("./frontend/images/addroom.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -219,6 +213,17 @@ class Ui_MainWindow(object):
         self.top_frame.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.top_frame.setFrameShadow(QtWidgets.QFrame.Raised)
         self.top_frame.setObjectName("top_frame")
+
+        self.btn_main_page = QtWidgets.QPushButton(self.top_frame)
+        self.btn_main_page.setGeometry(QtCore.QRect(0, 0, 51, 51))
+        self.btn_main_page.setText("")
+        icon = QtGui.QIcon()
+        icon.addPixmap(QtGui.QPixmap("./frontend/images/main.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.btn_main_page.setIcon(icon)
+        self.btn_main_page.setIconSize(QtCore.QSize(30, 30))
+        self.btn_main_page.setObjectName("btn_main_page")
+
+
         self.pages = QtWidgets.QFrame(self.main)
         self.pages.setGeometry(QtCore.QRect(49, 49, 1151, 651))
         self.pages.setFrameShape(QtWidgets.QFrame.StyledPanel)
@@ -238,7 +243,7 @@ class Ui_MainWindow(object):
 
         ############################     NEW RESERVATION    #################
         self.newrent = QtWidgets.QFrame(self.page_newrent)
-        self.newrent.setGeometry(QtCore.QRect(360, 50, 651, 551))
+        self.newrent.setGeometry(QtCore.QRect(270, 50, 651, 551))
         self.newrent.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.newrent.setFrameShadow(QtWidgets.QFrame.Raised)
         self.newrent.setObjectName("newrent")
@@ -310,7 +315,7 @@ class Ui_MainWindow(object):
         ##################################     NEW ROOM     #######################################################
 
         self.newroom = QtWidgets.QFrame(self.page_newroom)
-        self.newroom.setGeometry(QtCore.QRect(360, 50, 651, 551))
+        self.newroom.setGeometry(QtCore.QRect(270, 50, 651, 551))
         self.newroom.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.newroom.setFrameShadow(QtWidgets.QFrame.Raised)
         self.newroom.setObjectName("newroom")
@@ -485,6 +490,7 @@ class Ui_MainWindow(object):
         self.buttonBox_4.rejected.connect(self.reset_newroom)
         self.lPesel.textChanged.connect(self.check_exits_client)
         self.buttonBox.accepted.connect(self.add_new_reservation)
+        self.buttonBox.rejected.connect(self.clear_new_reservation)
 
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
@@ -501,6 +507,15 @@ class Ui_MainWindow(object):
                 self.lCity.setText(result.city)
                 self.lStreet.setText(result.street)
                 self.lNFlat.setText(result.number)
+                ctype = result.clientType
+                if type(ctype) == Silver:
+                    self.radioButton_2.setChecked(True)
+                elif type(ctype) == Gold or type(ctype) == Platinum :
+                    self.radioButton.setChecked(True)
+                else:
+                    self.radioButton_3.setChecked(True)
+
+
 
     def add_new_reservation(self):
 
@@ -518,6 +533,20 @@ class Ui_MainWindow(object):
         room = self.dbroom.read_id(self.lRoom.value())
         if room != False:
             self.dbrent.write(Rent(None, datetime(2020, 4, 1), datetime.now(), client, room))
+
+        self.clear_new_reservation()
+
+    def clear_new_reservation(self):
+        self.lName.setText("")
+        self.lSurname.setText("")
+        self.lCity.setText("")
+        self.lStreet.setText("")
+        self.lNFlat.setText("")
+        self.lPesel.setText("")
+        self.lRoom.setValue(0)
+        self.radioButton.setChecked(False)
+        self.radioButton_2.setChecked(False)
+        self.radioButton_3.setChecked(False)
 
     def show_current(self):
         self.stackedWidget.setCurrentWidget(self.page_exist)
