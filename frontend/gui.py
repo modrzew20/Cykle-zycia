@@ -534,6 +534,7 @@ class Ui_MainWindow(object):
             client = Client(name, surname, pesel, city, street, number, Default())
             self.dbclient.write(client)
 
+
         which = int( self.lRoom.currentText())
         room = self.dbroom.read_id(which)
         self.dbroom.delete(which)
@@ -542,6 +543,7 @@ class Ui_MainWindow(object):
         room.available = 1
         self.dbroom.write(room)
         self.clear_new_reservation()
+        self.lRoom.removeItem(self.lRoom.currentIndex())
 
     def clear_new_reservation(self):
         self.lName.setText("")
@@ -550,7 +552,7 @@ class Ui_MainWindow(object):
         self.lStreet.setText("")
         self.lNFlat.setText("")
         self.lPesel.setText("")
-        self.lRoom.setValue(0)
+        self.lRoom.addItems(self.dbroom.read_available_room())
         self.radioButton.setChecked(False)
         self.radioButton_2.setChecked(False)
         self.radioButton_3.setChecked(False)
