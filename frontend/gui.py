@@ -9,6 +9,8 @@
 
 from datetime import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtGui import QFocusEvent
+
 from backend.src.Apartment import Apartment
 from backend.Dao.DaoRent import DaoRent
 from backend.Dao.DaoClient import DaoClient
@@ -499,7 +501,6 @@ class Ui_MainWindow(object):
         self.lPesel.textChanged.connect(self.check_exits_client)
         self.buttonBox.accepted.connect(self.add_new_reservation)
         self.buttonBox.rejected.connect(self.clear_new_reservation)
-
         self.retranslateUi(MainWindow)
         self.stackedWidget.setCurrentIndex(0)
         self.tabWidget_2.setCurrentIndex(0)
@@ -531,7 +532,7 @@ class Ui_MainWindow(object):
 
     def add_new_reservation(self):
         if len(self.lName.text()) != 0 and len(self.lSurname.text()) != 0 and len(self.lPesel.text()) == 11 and len(
-                self.lCity.text()) != 0 and len(self.lStreet.text()) != 0 and  len(self.lNFlat.text()) != 0 :
+                self.lCity.text()) != 0 and len(self.lStreet.text()) != 0 and len(self.lNFlat.text()) != 0:
 
             client = self.dbclient.read_id(self.lPesel.text())
             if client == False:
@@ -543,7 +544,6 @@ class Ui_MainWindow(object):
                 number = self.lNFlat.text()
                 client = Client(name, surname, pesel, city, street, number, Default())
                 self.dbclient.write(client)
-
 
             which = int(self.lRoom.currentText())
             room = self.dbroom.read_id(which)
@@ -669,42 +669,54 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "  POKOJE  "))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "  KLIENCI  "))
 
+    def check_number(self, number):
+        result = self.dbroom.read_id_all_room()
+        for i in range(len(result)):
+            if result[i] == number: return False
+        return True
+
     def create_newapartment(self):
-        flat_number = self.lineEdit_9.text()
-        price = self.lineEdit_10.text()
-        beds = self.spinBox_3.value()
-        doublebeds = self.spinBox_5.value()
-        bathroom = self.spinBox_4.value()
-        nr = Apartment(flat_number, 0, beds, price, doublebeds, bathroom)
-        self.dbroom.write(nr)
-        self.reset_newroom()
+        if len(self.lineEdit_9.text()) != 0 and len(self.lineEdit_10.text()) != 0:
+            flat_number = self.lineEdit_9.text()
+            if self.check_number(flat_number):
+                price = self.lineEdit_10.text()
+                beds = self.spinBox_3.value()
+                doublebeds = self.spinBox_5.value()
+                bathroom = self.spinBox_4.value()
+                nr = Apartment(flat_number, 0, beds, price, doublebeds, bathroom)
+                self.dbroom.write(nr)
+                self.reset_newroom()
 
     def create_newnormalroom(self):
-        flat_number = self.lineEdit_9.text()
-        price = self.lineEdit_10.text()
-        beds = self.spinBox_2.value()
-        private_bathroom = False
-        if self.checkBox == 2:
-            private_bathroom = True
-        nr = NormalRoom(flat_number, 0, beds, price, private_bathroom)
-        self.dbroom.write(nr)
-        self.reset_newroom()
+        if len(self.lineEdit_9.text()) != 0 and len(self.lineEdit_10.text()) != 0:
+            flat_number = self.lineEdit_9.text()
+            if self.check_number(flat_number):
+                price = self.lineEdit_10.text()
+                beds = self.spinBox_2.value()
+                private_bathroom = False
+                if self.checkBox == 2:
+                    private_bathroom = True
+                nr = NormalRoom(flat_number, 0, beds, price, private_bathroom)
+                self.dbroom.write(nr)
+                self.reset_newroom()
 
     def create_newguesthouse(self):
-        flat_number = self.lineEdit_9.text()
-        price = self.lineEdit_10.text()
-        beds = self.spinBox.value()
-        doublebeds = self.spinBox_6.value()
-        bathrooms = self.spinBox_7.value()
-        swimmingpool = False
-        if self.checkBox_2 == 2:
-            swimmingpool = True
-        kitchen = False
-        if self.checkBox_3 == 2:
-            kitchen = True
-        nr = GuestHouse(flat_number, 0, beds, price, doublebeds, bathrooms, kitchen, swimmingpool)
-        self.dbroom.write(nr)
-        self.reset_newroom()
+        if len(self.lineEdit_9.text()) != 0 and len(self.lineEdit_10.text()) != 0:
+            flat_number = self.lineEdit_9.text()
+            if self.check_number(flat_number):
+                price = self.lineEdit_10.text()
+                beds = self.spinBox.value()
+                doublebeds = self.spinBox_6.value()
+                bathrooms = self.spinBox_7.value()
+                swimmingpool = False
+                if self.checkBox_2 == 2:
+                    swimmingpool = True
+                kitchen = False
+                if self.checkBox_3 == 2:
+                    kitchen = True
+                nr = GuestHouse(flat_number, 0, beds, price, doublebeds, bathrooms, kitchen, swimmingpool)
+                self.dbroom.write(nr)
+                self.reset_newroom()
 
     def reset_newroom(self):
         self.lineEdit_9.setText("")

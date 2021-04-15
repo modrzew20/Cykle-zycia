@@ -120,6 +120,18 @@ class DaoRoom(Dao):
         conn.close()
         return result
 
+    def read_id_all_room(self):
+        conn = create_connection(self.db_file)
+        cur = conn.cursor()
+        cur.execute("SELECT id FROM rooms")
+        rows = cur.fetchall()
+        result = []
+        for row in rows:
+            result.append(str(row[0]))
+        conn.close()
+        return result
+
+
     def delete(self, Id):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
