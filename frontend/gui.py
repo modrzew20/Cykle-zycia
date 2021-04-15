@@ -305,8 +305,8 @@ class Ui_MainWindow(object):
         self.radioButton_3 = QtWidgets.QRadioButton(self.groupBox)
         self.radioButton_3.setGeometry(QtCore.QRect(400, 30, 140, 20))
         self.radioButton_3.setObjectName("radioButton_3")
-        self.lRoom = QtWidgets.QSpinBox(self.newrent)
-        self.lRoom.setGeometry(QtCore.QRect(270, 400, 81, 41))
+        self.lRoom = QtWidgets.QComboBox(self.newrent)
+        self.lRoom.setGeometry(QtCore.QRect(270, 400, 120, 41))
         self.lRoom.setObjectName("lRoom")
         self.stackedWidget.addWidget(self.page_newrent)
         self.page_newroom = QtWidgets.QWidget()
@@ -479,7 +479,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.btn_main_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_main))
-        self.btn_addreserv_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_newrent))
+        self.btn_addreserv_page.clicked.connect(self.show_newrent_page)
         self.btn_actualreserv_page.clicked.connect(self.show_current)
         self.btn_addroom_page.clicked.connect(lambda: self.stackedWidget.setCurrentWidget(self.page_newroom))
         self.buttonBox_2.accepted.connect(self.create_newapartment)
@@ -497,6 +497,10 @@ class Ui_MainWindow(object):
         self.tabWidget_2.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def show_newrent_page(self):
+        self.lRoom.addItems(self.dbroom.read_available_room())
+        self.stackedWidget.setCurrentWidget(self.page_newrent)
 
     def check_exits_client(self):
         if len(self.lPesel.text()) == 11:
@@ -530,10 +534,13 @@ class Ui_MainWindow(object):
             client = Client(name, surname, pesel, city, street, number, Default())
             self.dbclient.write(client)
 
-        room = self.dbroom.read_id(self.lRoom.value())
+        which = int( self.lRoom.currentText())
+        room = self.dbroom.read_id(which)
+        self.dbroom.delete(which)
         if room != False:
             self.dbrent.write(Rent(None, datetime(2020, 4, 1), datetime.now(), client, room))
-
+        room.available = 1
+        self.dbroom.write(room)
         self.clear_new_reservation()
 
     def clear_new_reservation(self):
@@ -586,6 +593,7 @@ class Ui_MainWindow(object):
                 else:
                     label.setText(str(result_client[i - 1][j]))
                 self.gridLayout_3.addWidget(label, i, j, 1, 1)
+        self.dbroom.read_available_room()
 
         result_rent = self.dbrent.read()
         for i in range(len(result_rent) + 1):
