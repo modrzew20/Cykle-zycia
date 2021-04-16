@@ -30,25 +30,22 @@ class DaoRoom(Dao):
         if type(room) is Apartment:
             roomType = 1
             doubleBeds = room.doubleBeds
-            bathRooms = room.bathRooms
+            bathroom = room.bathRooms
+
             kitchen = 0
             swimmingPool = 0
 
         elif type(room) is NormalRoom:
             doubleBeds = 0
             kitchen = 0
+            bathroom = room.privateBathroom
             swimmingPool = 0
-
-            if room.privateBathroom:
-                bathRooms = 1
-            else:
-                bathRooms = 0
             roomType = 2
 
         elif type(room) is GuestHouse:
             roomType = 3
             doubleBeds = room.doubleBeds
-            bathRooms = room.bathRooms
+            bathroom = room.bathRooms
             if room.kitchen:
                 kitchen = 1
             else:
@@ -61,10 +58,12 @@ class DaoRoom(Dao):
         else:
             raise TypeError("Wrong object type")
 
+
         sql = """ INSERT INTO rooms(id ,beds,price,doubleBeds,bathRooms,kitchen,swimmingPool,roomType,available)
                 VALUES (?,?,?,?,?,?,?,?,?) """
 
-        cur.execute(sql, (room.id,room.beds, room.price, doubleBeds, bathRooms, kitchen, swimmingPool, roomType,room.available))
+
+        cur.execute(sql, (room.id,room.beds, room.price, doubleBeds, bathroom, kitchen, swimmingPool, roomType,room.available))
         conn.commit()
         conn.close()
 

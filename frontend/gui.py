@@ -126,6 +126,13 @@ class Ui_MainWindow(object):
                                  "    background: rgb(170, 170, 255);\n"
                                  "    border:0px solid;\n"
                                  "}\n"
+                                 
+                                 
+                                 """ #scrollAreaWidgetContents{
+                                     background: rgb(170, 170, 255);
+                                 }
+                                 """
+                                 
                                  "\n"
                                  "#tab_3,#tab_6,#tab_5 {\n"
                                  "    background: #1B1B1B;\n"
@@ -448,42 +455,49 @@ class Ui_MainWindow(object):
         self.tabWidget.setObjectName("tabWidget")
         self.tab = QtWidgets.QWidget()
         self.tab.setObjectName("tab")
-        self.gridLayoutWidget = QtWidgets.QWidget(self.tab)
-        self.gridLayoutWidget.setGeometry(QtCore.QRect(10, 10, 1091, 561))
-        self.gridLayoutWidget.setObjectName("gridLayoutWidget")
-        self.gridLayout = QtWidgets.QGridLayout(self.gridLayoutWidget)
+
+        self.scrollArea = QtWidgets.QScrollArea(self.tab)
+        self.scrollArea.setGeometry(QtCore.QRect(5, 10, 1101, 400))
+        self.scrollArea.setWidgetResizable(True)
+        self.scrollArea.setObjectName("scrollArea")
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1100, 400))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.gridLayout = QtWidgets.QGridLayout(self.scrollAreaWidgetContents)
         self.gridLayout.setContentsMargins(0, 0, 0, 0)
         self.gridLayout.setObjectName("gridLayout")
-        # self.verticalScrollBar_3 = QtWidgets.QScrollBar(self.gridLayoutWidget)
-        # self.verticalScrollBar_3.setOrientation(QtCore.Qt.Vertical)
-        # self.verticalScrollBar_3.setObjectName("verticalScrollBar_3")
-        # self.gridLayout.addWidget(self.verticalScrollBar_3, 0, 0, 1, 1)
+        self.scrollArea.setWidget(self.scrollAreaWidgetContents)
+
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
-        self.gridLayoutWidget_2 = QtWidgets.QWidget(self.tab_2)
-        self.gridLayoutWidget_2.setGeometry(QtCore.QRect(10, 10, 1091, 561))
-        self.gridLayoutWidget_2.setObjectName("gridLayoutWidget_2")
-        self.gridLayout_2 = QtWidgets.QGridLayout(self.gridLayoutWidget_2)
+
+        self.scrollArea_2 = QtWidgets.QScrollArea(self.tab_2)
+        self.scrollArea_2.setGeometry(QtCore.QRect(5, 10, 1101, 400))
+        self.scrollArea_2.setWidgetResizable(True)
+        self.scrollArea_2.setObjectName("scrollArea")
+        self.scrollAreaWidgetContents_2 = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents_2.setGeometry(QtCore.QRect(0, 0, 1100, 400))
+        self.scrollAreaWidgetContents_2.setObjectName("scrollAreaWidgetContents")
+        self.gridLayout_2 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_2)
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout_2.setObjectName("gridLayout_2")
-        # self.verticalScrollBar_2 = QtWidgets.QScrollBar(self.gridLayoutWidget_2)
-        # self.verticalScrollBar_2.setOrientation(QtCore.Qt.Vertical)
-        # self.verticalScrollBar_2.setObjectName("verticalScrollBar_2")
-        # self.gridLayout_2.addWidget(self.verticalScrollBar_2, 0, 0, 1, 1)
+        self.gridLayout_2.setObjectName("gridLayout")
+        self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
         self.tabWidget.addTab(self.tab_2, "")
         self.tab_4 = QtWidgets.QWidget()
         self.tab_4.setObjectName("tab_4")
-        self.gridLayoutWidget_3 = QtWidgets.QWidget(self.tab_4)
-        self.gridLayoutWidget_3.setGeometry(QtCore.QRect(10, 10, 1091, 561))
-        self.gridLayoutWidget_3.setObjectName("gridLayoutWidget_3")
-        self.gridLayout_3 = QtWidgets.QGridLayout(self.gridLayoutWidget_3)
+
+        self.scrollArea_3 = QtWidgets.QScrollArea(self.tab_4)
+        self.scrollArea_3.setGeometry(QtCore.QRect(5, 10, 1101, 400))
+        self.scrollArea_3.setWidgetResizable(True)
+        self.scrollArea_3.setObjectName("scrollArea")
+        self.scrollAreaWidgetContents_3 = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents_3.setGeometry(QtCore.QRect(0, 0, 1100, 400))
+        self.scrollAreaWidgetContents_3.setObjectName("scrollAreaWidgetContents")
+        self.gridLayout_3 = QtWidgets.QGridLayout(self.scrollAreaWidgetContents_3)
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.gridLayout_3.setObjectName("gridLayout_3")
-        # self.verticalScrollBar = QtWidgets.QScrollBar(self.gridLayoutWidget_3)
-        # self.verticalScrollBar.setOrientation(QtCore.Qt.Vertical)
-        # self.verticalScrollBar.setObjectName("verticalScrollBar")
-        # self.gridLayout_3.addWidget(self.verticalScrollBar, 0, 0, 1, 1)
+        self.gridLayout_3.setObjectName("gridLayout")
+        self.scrollArea_3.setWidget(self.scrollAreaWidgetContents_3)
         self.tabWidget.addTab(self.tab_4, "")
         self.stackedWidget.addWidget(self.page_exist)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -569,12 +583,11 @@ class Ui_MainWindow(object):
 
     def show_current(self):
         self.stackedWidget.setCurrentWidget(self.page_exist)
-
         result = self.dbroom.read()
         for i in range(len(result) + 1):
             for j in range(len(result[0])):
-                label = QtWidgets.QLabel(self.gridLayoutWidget_2)
-                label.setStyleSheet("border-style: solid;border-width: 1px;")
+                label = QtWidgets.QLabel()
+                label.setStyleSheet("border-style: solid;border-width: 1px;  color: black;")
                 if i == 0:  # id, beds, price, doubleBeds, bathRooms, kitchen, swimmingPool, roomType, available
                     if j == 0: label.setText("Rodzaj")
                     if j == 1: label.setText("Numer")
@@ -585,14 +598,24 @@ class Ui_MainWindow(object):
                     if j == 6: label.setText("Kuchnia")
                     if j == 7: label.setText("Basen")
                 else:
-                    label.setText(str(result[i - 1][j]))
+                    if j == 7 and result[i - 1][j] == 1:
+                        label.setText("JEST")
+                    elif j == 7 and result[i - 1][j] == 0:
+                        label.setText("BRAK")
+                    elif j == 6 and result[i - 1][j] == 1:
+                        label.setText("JEST")
+                    elif j == 6 and result[i - 1][j] == 0:
+                        label.setText("BRAK")
+                    else:
+                        label.setText(str(result[i - 1][j]))
                 self.gridLayout_2.addWidget(label, i, j, 1, 1)
+
 
         result_client = self.dbclient.read()
         for i in range(len(result_client) + 1):
             for j in range(len(result_client[0])):
-                label = QtWidgets.QLabel(self.gridLayoutWidget_3)
-                label.setStyleSheet("border-style: solid;border-width: 1px;")
+                label = QtWidgets.QLabel()
+                label.setStyleSheet("border-style: solid;border-width: 1px;color: black;")
                 if i == 0:
                     if j == 0: label.setText("Imie")
                     if j == 1: label.setText("Nazwisko")
@@ -604,13 +627,15 @@ class Ui_MainWindow(object):
                 else:
                     label.setText(str(result_client[i - 1][j]))
                 self.gridLayout_3.addWidget(label, i, j, 1, 1)
+
         self.dbroom.read_available_room()
+
 
         result_rent = self.dbrent.read()
         for i in range(len(result_rent) + 1):
             for j in range(len(result_rent[0])):
-                label = QtWidgets.QLabel(self.gridLayoutWidget)
-                label.setStyleSheet("border-style: solid;border-width: 1px;")
+                label = QtWidgets.QLabel()
+                label.setStyleSheet("border-style: solid;border-width: 1px;color: black;")
                 if i == 0:
                     if j == 0: label.setText("ID")
                     if j == 1: label.setText("Poczatek")
@@ -696,9 +721,9 @@ class Ui_MainWindow(object):
             if self.check_number(flat_number):
                 price = self.lineEdit_10.text()
                 beds = self.spinBox_2.value()
-                private_bathroom = False
-                if self.checkBox == 2:
-                    private_bathroom = True
+                private_bathroom = 0
+                if self.checkBox.checkState() == 2:
+                    private_bathroom = 1
                 nr = NormalRoom(flat_number, 0, beds, price, private_bathroom)
                 self.dbroom.write(nr)
                 self.reset_newroom()
@@ -712,10 +737,10 @@ class Ui_MainWindow(object):
                 doublebeds = self.spinBox_6.value()
                 bathrooms = self.spinBox_7.value()
                 swimmingpool = False
-                if self.checkBox_2 == 2:
+                if self.checkBox_2.checkState() == 2:
                     swimmingpool = True
                 kitchen = False
-                if self.checkBox_3 == 2:
+                if self.checkBox_3.checkState() == 2:
                     kitchen = True
                 nr = GuestHouse(flat_number, 0, beds, price, doublebeds, bathrooms, kitchen, swimmingpool)
                 self.dbroom.write(nr)

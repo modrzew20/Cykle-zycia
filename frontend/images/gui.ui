@@ -27,6 +27,10 @@ background:url(:/image/logo.svg)
 
 }
 
+QScrollArea {
+background: transparent;
+}
+
 QDialogButtonBox &gt; QPushButton:hover{
 background-color:rgb(19, 42, 255)
 }
@@ -348,7 +352,7 @@ font:bold;
        </rect>
       </property>
       <property name="currentIndex">
-       <number>2</number>
+       <number>3</number>
       </property>
       <widget class="QWidget" name="page_main">
        <widget class="QWidget" name="widget" native="true">
@@ -1062,24 +1066,39 @@ font:bold;
          <attribute name="title">
           <string>REZERWACJE</string>
          </attribute>
-         <widget class="QWidget" name="gridLayoutWidget">
+         <widget class="QScrollArea" name="scrollArea">
           <property name="geometry">
            <rect>
             <x>10</x>
             <y>10</y>
-            <width>1091</width>
-            <height>561</height>
+            <width>1001</width>
+            <height>471</height>
            </rect>
           </property>
-          <layout class="QGridLayout" name="gridLayout">
-           <item row="0" column="0">
-            <widget class="QScrollBar" name="verticalScrollBar_3">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-            </widget>
-           </item>
-          </layout>
+          <property name="widgetResizable">
+           <bool>true</bool>
+          </property>
+          <widget class="QWidget" name="scrollAreaWidgetContents">
+           <property name="geometry">
+            <rect>
+             <x>0</x>
+             <y>0</y>
+             <width>999</width>
+             <height>469</height>
+            </rect>
+           </property>
+           <widget class="QWidget" name="gridLayoutWidget">
+            <property name="geometry">
+             <rect>
+              <x>30</x>
+              <y>40</y>
+              <width>931</width>
+              <height>391</height>
+             </rect>
+            </property>
+            <layout class="QGridLayout" name="gridLayout"/>
+           </widget>
+          </widget>
          </widget>
         </widget>
         <widget class="QWidget" name="tab_2">
