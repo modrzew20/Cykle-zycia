@@ -7,11 +7,12 @@ class DaoRent(Dao):
         self.db_file = db_file
         conn = create_connection(self.db_file)
         sql_create_room_table = """ CREATE TABLE IF NOT EXISTS rents (
-                                id BLOB PRIMARY KEY,
+                                id INTEGER PRIMARY KEY AUTOINCREMENT,
                                 beginRent timestamp,
                                 endRent timestamp,
                                 clientPesel TEXT,
                                 roomId INTEGER,
+                                accessType INTEGER,
                                 FOREIGN KEY (clientPesel) REFERENCES clients(pesel),
                                 FOREIGN KEY (roomId) REFERENCES rooms(Id)
                                 ); """
@@ -22,12 +23,21 @@ class DaoRent(Dao):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
 
-        sql = """ INSERT INTO rents(id, beginRent, endRent, clientPesel, roomId)
+        sql = """ INSERT INTO rents(beginRent, endRent, clientPesel, roomId, accessType)
                 VALUES (?,?,?,?,?) """
-        rentIdEdited = '"' + str(rent.Id) + '"'
-        print(rentIdEdited)
-        cur.execute(sql, (rentIdEdited, rent.beginRent.date(), rent.endRent.date(),
-                          rent.client.pesel, rent.room.getId()))
+
+        # print(rentIdEdited)
+        from backend.src.AccessType import Exclusive, VIP, Standard
+        accessType = 0
+        if isinstance(rent.accessType, Exclusive):
+            accessType = 1
+        elif isinstance(rent.accessType, VIP):
+            accessType = 2
+        elif isinstance(rent.accessType, Standard):
+            accessType = 3
+
+        cur.execute(sql, (rent.beginRent.date(), rent.endRent.date(),
+                          rent.client.pesel, rent.room.getId(), accessType))
         conn.commit()
         conn.close()
 
@@ -37,9 +47,9 @@ class DaoRent(Dao):
         cur.execute("SELECT * FROM rents")
         result = []
         rows = cur.fetchall()
-        r = [0] * 5
+        r = [0] * 6
         for row in rows:
-            for j in range(5):
+            for j in range(6):
                 r[j] = row[j]
             result.append(copy.deepcopy(r))
         conn.close()

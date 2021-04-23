@@ -58,12 +58,11 @@ class DaoRoom(Dao):
         else:
             raise TypeError("Wrong object type")
 
-
         sql = """ INSERT INTO rooms(id ,beds,price,doubleBeds,bathRooms,kitchen,swimmingPool,roomType,available)
                 VALUES (?,?,?,?,?,?,?,?,?) """
 
-
-        cur.execute(sql, (room.id,room.beds, room.price, doubleBeds, bathroom, kitchen, swimmingPool, roomType,room.available))
+        cur.execute(sql, (
+            room.id, room.beds, room.price, doubleBeds, bathroom, kitchen, swimmingPool, roomType, room.available))
         conn.commit()
         conn.close()
 
@@ -83,7 +82,7 @@ class DaoRoom(Dao):
             elif row[-2] == 3:  # GuestHouse
                 r[0] = "Dom letniskowy"
             for j in range(7):
-                r[j+1] = row[j]
+                r[j + 1] = row[j]
             result.append(copy.deepcopy(r))
         conn.close()
         return result
@@ -93,17 +92,18 @@ class DaoRoom(Dao):
         cur = conn.cursor()
         cur.execute("SELECT * FROM rooms WHERE id = ?", (Id,))
         rows = cur.fetchall()
+        result = None
         if len(rows) == 0:
             conn.close()
             return False
-     #  id, beds, price, doubleBeds, bathRooms, kitchen, swimmingPool, roomType, available
+        #  id, beds, price, doubleBeds, bathRooms, kitchen, swimmingPool, roomType, available
         for row in rows:
             if row[-2] == 1:  # Apartment
-                result = Apartment(row[0],row[-1], row[1], row[2], row[3], row[4])
+                result = Apartment(row[0], row[-1], row[1], row[2], row[3], row[4])
             elif row[-2] == 2:  # NormalRoom
-                result = NormalRoom(row[0],row[-1],row[1], row[2],  False if row[3] == 0 else True)
+                result = NormalRoom(row[0], row[-1], row[1], row[2], False if row[3] == 0 else True)
             elif row[-2] == 3:  # GuestHouse
-                result = GuestHouse(row[0],row[-1],  row[1],row[2],  row[3], row[4], True if row[5] == 1 else False,
+                result = GuestHouse(row[0], row[-1], row[1], row[2], row[3], row[4], True if row[5] == 1 else False,
                                     True if row[6] else False)
         conn.close()
         return result
@@ -129,7 +129,6 @@ class DaoRoom(Dao):
             result.append(str(row[0]))
         conn.close()
         return result
-
 
     def delete(self, Id):
         conn = create_connection(self.db_file)

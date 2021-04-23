@@ -3,7 +3,7 @@ from datetime import datetime
 
 
 class Rent:
-    def __init__(self, Id, beginRent, endRent, client, room):
+    def __init__(self, Id, beginRent, endRent, client, room, accessType):
         self.beginRent = beginRent
         self.endRent = endRent
         self.client = client
@@ -13,6 +13,7 @@ class Rent:
             self.Id = Id
         else:
             self.Id = uuid.uuid4()
+        self.accessType = accessType
 
     def setEndRent(self):
         self.endRent = datetime.now()

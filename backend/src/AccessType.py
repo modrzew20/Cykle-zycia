@@ -5,6 +5,7 @@ class AccessType(ABC):
     def __init__(self):
         pass
 
+
 class Exclusive(AccessType):
     def __init__(self):
         self.swimmingPool = False
