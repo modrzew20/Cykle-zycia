@@ -20,6 +20,7 @@ from backend.src.NormalRoom import NormalRoom
 from backend.src.Client import Client
 from backend.src.ClientType import Default, Silver, Gold, Platinum
 from backend.src.Rent import Rent
+from frontend.popup import Ui_Dialog
 
 
 class Ui_MainWindow(object):
@@ -756,6 +757,23 @@ class Ui_MainWindow(object):
         self.spinBox.setValue(0)
         self.spinBox_6.setValue(0)
         self.spinBox_7.setValue(0)
+
+
+        # needs selected rent ID
+    def rentPricePopup(self, Id):
+        import sys
+        app = QtWidgets.QApplication(sys.argv)
+        Dialog = QtWidgets.QDialog()
+        ui = Ui_Dialog()
+        date = datetime.now()
+        rent = self.dbrent.readOneRent(Id)
+        self.dbrent.endRent(date, Id)
+        # 0 means is room is available
+        self.dbroom.updateAvailability(rent.Id, 0)
+
+        ui.setupUi(Dialog, rent.endRent())
+        Dialog.show()
+        sys.exit(app.exec_())
 
 
 if __name__ == "__main__":

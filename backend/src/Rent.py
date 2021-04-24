@@ -15,8 +15,10 @@ class Rent:
             self.Id = uuid.uuid4()
         self.accessType = accessType
 
-    def setEndRent(self):
+    def endRent(self):
         self.endRent = datetime.now()
+        self.room.available = True
+        return self.room.getPrice() * self.getRentDays()
 
     def getRentDays(self):
         result_date = datetime.now() - self.beginRent

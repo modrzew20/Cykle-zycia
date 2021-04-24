@@ -136,3 +136,11 @@ class DaoRoom(Dao):
         cur.execute("DELETE FROM rooms WHERE id = ?", (Id,))
         conn.commit()
         conn.close()
+
+    def updateAvailability(self, Id, value):
+        conn = create_connection(self.db_file)
+        cur = conn.cursor()
+        sql = """UPDATE rooms SET available = ? WHERE id = ?"""
+        cur.execute(sql, [value, Id])
+        conn.commit()
+        conn.close()

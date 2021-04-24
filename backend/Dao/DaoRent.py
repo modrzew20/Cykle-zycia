@@ -2,6 +2,7 @@ from backend.Dao.Dao import Dao
 from backend.Dao.DaoMethods import create_connection, create_table
 import copy
 
+
 class DaoRent(Dao):
     def __init__(self, db_file):
         self.db_file = db_file
@@ -55,9 +56,33 @@ class DaoRent(Dao):
         conn.close()
         return result
 
+    def endRent(self, endRent, Id):
+        conn = create_connection(self.db_file)
+        cur = conn.cursor()
+        sql = """UPDATE rents
+                        SET endRent = ?
+                        WHERE id = ?"""
+
+        cur.execute(sql, [endRent, Id])
+        conn.commit()
+        conn.close()
+
+        pass
+
     def delete(self, Id):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
         cur.execute("DELETE FROM rents WHERE id = ?", (Id,))
         conn.commit()
         conn.close()
+
+    def readOneRent(self, Id):
+        conn = create_connection(self.db_file)
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM rents WHERE id = ?", (Id,))
+        row = cur.fetchall()[0]
+        from backend.src.Rent import Rent
+        # (self, Id, beginRent, endRent, client, room, accessType):
+        rent = Rent(row[0], row[1], row[2], row[3], row[4], row[5])
+        conn.close()
+        return rent
