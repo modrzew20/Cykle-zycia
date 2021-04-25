@@ -14,6 +14,7 @@ class DaoRent(Dao):
                                 clientPesel TEXT,
                                 roomId INTEGER,
                                 accessType INTEGER,
+                                price DOUBLE ,
                                 FOREIGN KEY (clientPesel) REFERENCES clients(pesel),
                                 FOREIGN KEY (roomId) REFERENCES rooms(Id)
                                 ); """
@@ -24,21 +25,20 @@ class DaoRent(Dao):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
 
-        sql = """ INSERT INTO rents(beginRent, endRent, clientPesel, roomId, accessType)
-                VALUES (?,?,?,?,?) """
+        sql = """ INSERT INTO rents(beginRent, endRent, clientPesel, roomId, accessType, price)
+                VALUES (?,?,?,?,?,?) """
 
-        # print(rentIdEdited)
         from backend.src.AccessType import Exclusive, VIP, Standard
         accessType = 0
-        if isinstance(rent.accessType, Exclusive):
+        if type(rent.accessType) == Exclusive:
             accessType = 1
-        elif isinstance(rent.accessType, VIP):
+        elif type(rent.accessType) == VIP:
             accessType = 2
-        elif isinstance(rent.accessType, Standard):
+        elif type(rent.accessType) == Standard:
             accessType = 3
 
         cur.execute(sql, (rent.beginRent.date(), rent.endRent.date(),
-                          rent.client.pesel, rent.room.getId(), accessType))
+                          rent.client.pesel, rent.room.getId(), accessType,rent.price))
         conn.commit()
         conn.close()
 
@@ -48,22 +48,32 @@ class DaoRent(Dao):
         cur.execute("SELECT * FROM rents")
         result = []
         rows = cur.fetchall()
-        r = [0] * 6
+        r = [0] * 7
         for row in rows:
-            for j in range(6):
+            for j in range(7):
                 r[j] = row[j]
             result.append(copy.deepcopy(r))
         conn.close()
         return result
 
-    def endRent(self, endRent, Id):
+    def sum_all_rent(self, pesel):
+        conn = create_connection(self.db_file)
+        cur = conn.cursor()
+        cur.execute("SELECT SUM (price) FROM rents WHERE clientPesel = ?", (pesel,))
+        result = cur.fetchone()
+        conn.close()
+        return result[0]
+
+
+
+    def endRent(self, date, id, price):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
         sql = """UPDATE rents
-                        SET endRent = ?
+                        SET price = ? ,endRent = ?
                         WHERE id = ?"""
 
-        cur.execute(sql, [endRent, Id])
+        cur.execute(sql, [price, date.date(), id])
         conn.commit()
         conn.close()
 
@@ -83,6 +93,6 @@ class DaoRent(Dao):
         row = cur.fetchall()[0]
         from backend.src.Rent import Rent
         # (self, Id, beginRent, endRent, client, room, accessType):
-        rent = Rent(row[0], row[1], row[2], row[3], row[4], row[5])
+        rent = Rent(row[0], row[1], row[2], row[3], row[4], row[5], row[6])
         conn.close()
         return rent

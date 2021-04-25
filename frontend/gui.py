@@ -11,6 +11,7 @@ from datetime import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtGui import QFocusEvent
 
+from backend.src.AccessType import Standard, VIP, Exclusive
 from backend.src.Apartment import Apartment
 from backend.Dao.DaoRent import DaoRent
 from backend.Dao.DaoClient import DaoClient
@@ -20,7 +21,6 @@ from backend.src.NormalRoom import NormalRoom
 from backend.src.Client import Client
 from backend.src.ClientType import Default, Silver, Gold, Platinum
 from backend.src.Rent import Rent
-from frontend.popup import Ui_Dialog
 
 
 class Ui_MainWindow(object):
@@ -32,7 +32,7 @@ class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(1200, 700)
+        MainWindow.setFixedSize(1200,700)
         MainWindow.setStyleSheet("QDialogButtonBox > QPushButton{\n"
                                  "\n"
                                  "background-color: rgb(27, 3, 159);\n"
@@ -43,7 +43,14 @@ class Ui_MainWindow(object):
                                  """ QDialogButtonBox > QPushButton:hover{
                                  color:white;
                                  }
-                                 """
+                                 
+                                 #btn_erase, #btn_erase_3 , #btn_end {
+                                 background-color: rgb(27, 3, 159);
+                                 color:rgb(198, 140, 255);
+                                 font-size:20px;
+                                 font-family:Verdana,bold;
+                                 border-radius: 10px;
+                                 }"""
 
 
                                  "\n"
@@ -110,7 +117,7 @@ class Ui_MainWindow(object):
                                  "\n"
                                  "\n"
                                  "QTabBar::tab {\n"
-                                 "  background: rgb(230, 230, 230); \n"
+                                 "  background: rgb(230, 230, 230); width: 180px;\n"
                                  "  border: 1px solid lightgray; \n"
                                  "  padding: 15px;\n"
                                  "  font-family:Verdana,bold;\n"
@@ -127,13 +134,13 @@ class Ui_MainWindow(object):
                                  "    background: rgb(170, 170, 255);\n"
                                  "    border:0px solid;\n"
                                  "}\n"
-                                 
-                                 
+
+
                                  """ #scrollAreaWidgetContents{
                                      background: rgb(170, 170, 255);
                                  }
                                  """
-                                 
+
                                  "\n"
                                  "#tab_3,#tab_6,#tab_5 {\n"
                                  "    background: #1B1B1B;\n"
@@ -469,6 +476,21 @@ class Ui_MainWindow(object):
         self.gridLayout.setObjectName("gridLayout")
         self.scrollArea.setWidget(self.scrollAreaWidgetContents)
 
+        self.label_end = QtWidgets.QLabel(self.tab)
+        self.label_end.setGeometry(QtCore.QRect(150, 470, 191, 20))
+        self.label_end.setObjectName("label_end")
+        self.label_end.setStyleSheet("color:black;")
+
+        self.input = QtWidgets.QLineEdit(self.tab)
+        self.input.setGeometry(QtCore.QRect(250, 460, 150, 41))
+        self.input.setObjectName("input")
+
+        self.btn_end = QtWidgets.QPushButton(self.tab)
+        self.btn_end.setGeometry(QtCore.QRect(450, 460, 150, 41))
+        self.btn_end.setText("Zakończ")
+        self.btn_end.setObjectName("btn_end")
+        self.btn_end.clicked.connect(self.endrent)
+
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
         self.tab_2.setObjectName("tab_2")
@@ -484,6 +506,22 @@ class Ui_MainWindow(object):
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_2.setObjectName("gridLayout")
         self.scrollArea_2.setWidget(self.scrollAreaWidgetContents_2)
+
+        self.label_erase = QtWidgets.QLabel(self.tab_2)
+        self.label_erase.setGeometry(QtCore.QRect(100, 470, 191, 20))
+        self.label_erase.setStyleSheet("color:black;")
+        self.label_erase.setObjectName("label_erase")
+
+        self.input_2 = QtWidgets.QLineEdit(self.tab_2)
+        self.input_2.setGeometry(QtCore.QRect(250, 460, 150, 41))
+        self.input_2.setObjectName("input_2")
+
+        self.btn_erase = QtWidgets.QPushButton(self.tab_2)
+        self.btn_erase.setGeometry(QtCore.QRect(450, 460, 150, 41))
+        self.btn_erase.setText("Usuń")
+        self.btn_erase.setObjectName("btn_erase")
+        self.btn_erase.clicked.connect(self.erase_room)
+
         self.tabWidget.addTab(self.tab_2, "")
         self.tab_4 = QtWidgets.QWidget()
         self.tab_4.setObjectName("tab_4")
@@ -499,6 +537,22 @@ class Ui_MainWindow(object):
         self.gridLayout_3.setContentsMargins(0, 0, 0, 0)
         self.gridLayout_3.setObjectName("gridLayout")
         self.scrollArea_3.setWidget(self.scrollAreaWidgetContents_3)
+
+        self.label_erase_3 = QtWidgets.QLabel(self.tab_4)
+        self.label_erase_3.setGeometry(QtCore.QRect(100, 470, 191, 20))
+        self.label_erase_3.setStyleSheet("color:black;")
+        self.label_erase_3.setObjectName("label_erase_3")
+
+        self.input_3 = QtWidgets.QLineEdit(self.tab_4)
+        self.input_3.setGeometry(QtCore.QRect(250, 460, 150, 41))
+        self.input_3.setObjectName("input_3")
+
+        self.btn_erase_3 = QtWidgets.QPushButton(self.tab_4)
+        self.btn_erase_3.setGeometry(QtCore.QRect(450, 460, 150, 41))
+        self.btn_erase_3.setText("Usuń")
+        self.btn_erase_3.setObjectName("btn_erase_3")
+        self.btn_erase_3.clicked.connect(self.erase_client)
+
         self.tabWidget.addTab(self.tab_4, "")
         self.stackedWidget.addWidget(self.page_exist)
         MainWindow.setCentralWidget(self.centralwidget)
@@ -521,134 +575,6 @@ class Ui_MainWindow(object):
         self.tabWidget_2.setCurrentIndex(0)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
-
-    def show_newrent_page(self):
-        self.lRoom.clear()
-        self.lRoom.addItems(self.dbroom.read_available_room())
-        self.stackedWidget.setCurrentWidget(self.page_newrent)
-        self.radioButton_3.setChecked(True)
-
-    def check_exits_client(self):
-        if len(self.lPesel.text()) == 11:
-            result = self.dbclient.read_id(self.lPesel.text())
-            if result != False:
-                self.lName.setText(result.firstName)
-                self.lSurname.setText(result.lastName)
-                self.lCity.setText(result.city)
-                self.lStreet.setText(result.street)
-                self.lNFlat.setText(result.number)
-                ctype = result.clientType
-                if type(ctype) == Silver:
-                    self.radioButton_2.setChecked(True)
-                elif type(ctype) == Gold or type(ctype) == Platinum:
-                    self.radioButton.setChecked(True)
-                else:
-                    self.radioButton_3.setChecked(True)
-
-    def add_new_reservation(self):
-        if len(self.lName.text()) != 0 and len(self.lSurname.text()) != 0 and len(self.lPesel.text()) == 11 and len(
-                self.lCity.text()) != 0 and len(self.lStreet.text()) != 0 and len(self.lNFlat.text()) != 0:
-
-            client = self.dbclient.read_id(self.lPesel.text())
-            if client == False:
-                name = self.lName.text()
-                surname = self.lSurname.text()
-                pesel = self.lPesel.text()
-                city = self.lCity.text()
-                street = self.lStreet.text()
-                number = self.lNFlat.text()
-                client = Client(name, surname, pesel, city, street, number, Default())
-                self.dbclient.write(client)
-
-            which = int(self.lRoom.currentText())
-            room = self.dbroom.read_id(which)
-            self.dbroom.delete(which)
-            if room != False:
-                self.dbrent.write(Rent(None, datetime.now(),datetime(100, 1, 1), client, room))
-            room.available = 1
-            self.dbroom.write(room)
-            self.clear_new_reservation()
-            self.lRoom.removeItem(self.lRoom.currentIndex())
-
-    def clear_new_reservation(self):
-        self.lName.setText("")
-        self.lSurname.setText("")
-        self.lCity.setText("")
-        self.lStreet.setText("")
-        self.lNFlat.setText("")
-        self.lPesel.setText("")
-        self.lRoom.addItems(self.dbroom.read_available_room())
-        self.radioButton.setChecked(False)
-        self.radioButton_2.setChecked(False)
-        self.radioButton_3.setChecked(False)
-
-    def show_current(self):
-        self.stackedWidget.setCurrentWidget(self.page_exist)
-        result = self.dbroom.read()
-        for i in range(len(result) + 1):
-            for j in range(len(result[0])):
-                label = QtWidgets.QLabel()
-                label.setStyleSheet("border-style: solid;border-width: 1px;  color: black;")
-                if i == 0:  # id, beds, price, doubleBeds, bathRooms, kitchen, swimmingPool, roomType, available
-                    if j == 0: label.setText("Rodzaj")
-                    if j == 1: label.setText("Numer")
-                    if j == 2: label.setText("Łóżka pojedyncze")
-                    if j == 3: label.setText("Cena")
-                    if j == 4: label.setText("Łóżka podwojne")
-                    if j == 5: label.setText("Łazienki")
-                    if j == 6: label.setText("Kuchnia")
-                    if j == 7: label.setText("Basen")
-                else:
-                    if j == 7 and result[i - 1][j] == 1:
-                        label.setText("JEST")
-                    elif j == 7 and result[i - 1][j] == 0:
-                        label.setText("BRAK")
-                    elif j == 6 and result[i - 1][j] == 1:
-                        label.setText("JEST")
-                    elif j == 6 and result[i - 1][j] == 0:
-                        label.setText("BRAK")
-                    else:
-                        label.setText(str(result[i - 1][j]))
-                self.gridLayout_2.addWidget(label, i, j, 1, 1)
-
-
-        result_client = self.dbclient.read()
-        for i in range(len(result_client) + 1):
-            for j in range(len(result_client[0])):
-                label = QtWidgets.QLabel()
-                label.setStyleSheet("border-style: solid;border-width: 1px;color: black;")
-                if i == 0:
-                    if j == 0: label.setText("Imie")
-                    if j == 1: label.setText("Nazwisko")
-                    if j == 2: label.setText("Pesel")
-                    if j == 3: label.setText("Miasto")
-                    if j == 4: label.setText("Ulica")
-                    if j == 5: label.setText("Numer")
-                    if j == 6: label.setText("Typ klienta")
-                else:
-                    label.setText(str(result_client[i - 1][j]))
-                self.gridLayout_3.addWidget(label, i, j, 1, 1)
-
-        self.dbroom.read_available_room()
-
-
-        result_rent = self.dbrent.read()
-        for i in range(len(result_rent) + 1):
-            for j in range(len(result_rent[0])):
-                label = QtWidgets.QLabel()
-                label.setStyleSheet("border-style: solid;border-width: 1px;color: black;")
-                if i == 0:
-                    if j == 0: label.setText("ID")
-                    if j == 1: label.setText("Poczatek")
-                    if j == 2: label.setText("Koniec")
-                    if j == 3: label.setText("Pesel")
-                    if j == 4: label.setText("Nr. pokoju")
-                else:
-                    if j == 2 and str(result_rent[i - 1][j]) == "0100-01-01":
-                        label.setText("W trakcie")
-                    else:
-                        label.setText(str(result_rent[i - 1][j]))
-                self.gridLayout.addWidget(label, i, j, 1, 1)
 
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
@@ -689,6 +615,9 @@ class Ui_MainWindow(object):
         self.label_19.setText(_translate("MainWindow", "ILOŚĆ ŁAZIENEK"))
         self.label_21.setText(_translate("MainWindow", "BASEN"))
         self.label_22.setText(_translate("MainWindow", "KUCHNIA"))
+        self.label_end.setText(_translate("MainWindow", "Podaj ID:"))
+        self.label_erase.setText(_translate("MainWindow", "Podaj numer:"))
+        self.label_erase_3.setText(_translate("MainWindow", "Podaj pesel:"))
         self.checkBox_2.setText(_translate("MainWindow", "TAK"))
         self.checkBox_3.setText(_translate("MainWindow", "TAK"))
         self.tabWidget_2.setTabText(self.tabWidget_2.indexOf(self.tab_5),
@@ -697,6 +626,196 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("MainWindow", "   REZERWACJE   "))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "  POKOJE  "))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "  KLIENCI  "))
+
+    def erase_room(self):
+        self.dbroom.delete(self.input_2.text())
+        for i in range(self.gridLayout_2.count()):
+            self.gridLayout_2.itemAt(i).widget().deleteLater()
+        self.show_current()
+        self.input_2.setText("")
+
+    def erase_client(self):
+        self.dbclient.delete(self.input_3.text())
+        for i in range(self.gridLayout_3.count()):
+            self.gridLayout_3.itemAt(i).widget().deleteLater()
+        self.show_current()
+        self.input_3.setText("")
+
+    def show_newrent_page(self):
+        self.lRoom.clear()
+        self.lRoom.addItems(self.dbroom.read_available_room())
+        self.stackedWidget.setCurrentWidget(self.page_newrent)
+        self.radioButton_3.setChecked(True)
+
+    def endrent(self):
+        id = int(self.input.text())
+        self.dbrent.endRent(datetime.now(), id, 0)
+        for i in range(self.gridLayout.count()):
+            self.gridLayout.itemAt(i).widget().deleteLater()
+
+        rent = self.dbrent.readOneRent(id)
+        rent.room = self.dbroom.read_id(rent.room)
+        self.dbroom.updateAvailability(rent.room.id, 0)
+        price = 0
+        if rent.accessType == 1: price = price + 120
+        if rent.accessType == 2: price = price + 60
+        price = rent.getCost() * (1-self.dbclient.read_id(rent.client).clientType.discount)
+        self.dbrent.endRent(datetime.now(), id, price)
+        priceofall = self.dbrent.sum_all_rent(rent.client)
+        print(priceofall)
+        if 500 < priceofall < 1000:
+            self.dbclient.updateclientst(2, rent.client)
+            for i in range(self.gridLayout_3.count()):
+                self.gridLayout_3.itemAt(i).widget().deleteLater()
+        if 1000 < priceofall < 2000:
+            self.dbclient.updateclientst(3, rent.client)
+            for i in range(self.gridLayout_3.count()):
+                self.gridLayout_3.itemAt(i).widget().deleteLater()
+        if priceofall > 2000:
+            self.dbclient.updateclientst(4, rent.client)
+            for i in range(self.gridLayout_3.count()):
+                self.gridLayout_3.itemAt(i).widget().deleteLater()
+
+        self.show_current()
+        self.input.setText("")
+
+    def check_exits_client(self):
+        if len(self.lPesel.text()) == 11:
+            result = self.dbclient.read_id(self.lPesel.text())
+            if result != False:
+                self.lName.setText(result.firstName)
+                self.lSurname.setText(result.lastName)
+                self.lCity.setText(result.city)
+                self.lStreet.setText(result.street)
+                self.lNFlat.setText(result.number)
+                ctype = result.clientType
+                if type(ctype) == Silver:
+                    self.radioButton_2.setChecked(True)
+                elif type(ctype) == Gold or type(ctype) == Platinum:
+                    self.radioButton.setChecked(True)
+                else:
+                    self.radioButton_3.setChecked(True)
+
+    def add_new_reservation(self):
+        if len(self.lName.text()) != 0 and len(self.lSurname.text()) != 0 and len(self.lPesel.text()) == 11 and len(
+                self.lCity.text()) != 0 and len(self.lStreet.text()) != 0 and len(self.lNFlat.text()) != 0:
+
+            client = self.dbclient.read_id(self.lPesel.text())
+            if client == False:
+                name = self.lName.text()
+                surname = self.lSurname.text()
+                pesel = self.lPesel.text()
+                city = self.lCity.text()
+                street = self.lStreet.text()
+                number = self.lNFlat.text()
+                client = Client(name, surname, pesel, city, street, number, Default())
+                self.dbclient.write(client)
+
+            if self.radioButton.isChecked():
+                st = Exclusive()
+            elif self.radioButton_2.isChecked():
+                st = VIP()
+            else:
+                st = Standard()
+
+            which = int(self.lRoom.currentText())
+            room = self.dbroom.read_id(which)
+            self.dbroom.delete(which)
+
+            if room != False:
+                self.dbrent.write(Rent(None, datetime(2021, 4, 21), datetime(100, 1, 1), client, room, st, 0))
+            room.available = 1
+            self.dbroom.write(room)
+            self.clear_new_reservation()
+
+
+    def clear_new_reservation(self):
+        self.lName.setText("")
+        self.lSurname.setText("")
+        self.lCity.setText("")
+        self.lStreet.setText("")
+        self.lNFlat.setText("")
+        self.lPesel.setText("")
+        self.lRoom.removeItem(self.lRoom.currentIndex())
+        self.radioButton.setChecked(False)
+        self.radioButton_2.setChecked(False)
+        self.radioButton_3.setChecked(False)
+
+    def show_current(self):
+        self.stackedWidget.setCurrentWidget(self.page_exist)
+        result = self.dbroom.read()
+        for i in range(len(result) + 1):
+            for j in range(len(result[0])):
+                label = QtWidgets.QLabel()
+                label.setStyleSheet("border-style: solid;border-width: 1px;  color: black;")
+                if i == 0:  # id, beds, price, doubleBeds, bathRooms, kitchen, swimmingPool, roomType, available
+                    if j == 0: label.setText("Rodzaj")
+                    if j == 1: label.setText("Numer")
+                    if j == 2: label.setText("Łóżka pojedyncze")
+                    if j == 3: label.setText("Cena")
+                    if j == 4: label.setText("Łóżka podwojne")
+                    if j == 5: label.setText("Łazienki")
+                    if j == 6: label.setText("Kuchnia")
+                    if j == 7: label.setText("Basen")
+                else:
+                    if j == 7 and result[i - 1][j] == 1:
+                        label.setText("JEST")
+                    elif j == 7 and result[i - 1][j] == 0:
+                        label.setText("BRAK")
+                    elif j == 6 and result[i - 1][j] == 1:
+                        label.setText("JEST")
+                    elif j == 6 and result[i - 1][j] == 0:
+                        label.setText("BRAK")
+                    else:
+                        label.setText(str(result[i - 1][j]))
+                self.gridLayout_2.addWidget(label, i, j, 1, 1)
+
+        result_client = self.dbclient.read()
+        for i in range(len(result_client) + 1):
+            for j in range(len(result_client[0])):
+                label = QtWidgets.QLabel()
+                label.setStyleSheet("border-style: solid;border-width: 1px;color: black;")
+                if i == 0:
+                    if j == 0: label.setText("Imie")
+                    if j == 1: label.setText("Nazwisko")
+                    if j == 2: label.setText("Pesel")
+                    if j == 3: label.setText("Miasto")
+                    if j == 4: label.setText("Ulica")
+                    if j == 5: label.setText("Numer")
+                    if j == 6: label.setText("Typ klienta")
+                else:
+                    label.setText(str(result_client[i - 1][j]))
+                self.gridLayout_3.addWidget(label, i, j, 1, 1)
+
+        self.dbroom.read_available_room()
+
+        result_rent = self.dbrent.read()
+        for i in range(len(result_rent) + 1):
+            for j in range(len(result_rent[0])):
+                label = QtWidgets.QLabel()
+                label.setStyleSheet("border-style: solid;border-width: 1px;color: black;")
+                if i == 0:
+                    if j == 0: label.setText("ID")
+                    if j == 1: label.setText("Poczatek")
+                    if j == 2: label.setText("Koniec")
+                    if j == 3: label.setText("Pesel")
+                    if j == 4: label.setText("Nr. pokoju")
+                    if j == 5: label.setText("Standard")
+                    if j == 6: label.setText("Kwota")
+
+                else:
+                    if j == 2 and str(result_rent[i - 1][j]) == "0100-01-01":
+                        label.setText("W trakcie")
+                    elif j == 5:
+                        if result_rent[i - 1][j] == 1:
+                            label.setText("Exclusive")
+                        elif result_rent[i - 1][j] == 2:
+                            label.setText("Medium")
+                        else:
+                            label.setText("Standard")
+                    else:
+                        label.setText(str(result_rent[i - 1][j]))
+                self.gridLayout.addWidget(label, i, j, 1, 1)
 
     def check_number(self, number):
         result = self.dbroom.read_id_all_room()
@@ -757,23 +876,6 @@ class Ui_MainWindow(object):
         self.spinBox.setValue(0)
         self.spinBox_6.setValue(0)
         self.spinBox_7.setValue(0)
-
-
-        # needs selected rent ID
-    def rentPricePopup(self, Id):
-        import sys
-        app = QtWidgets.QApplication(sys.argv)
-        Dialog = QtWidgets.QDialog()
-        ui = Ui_Dialog()
-        date = datetime.now()
-        rent = self.dbrent.readOneRent(Id)
-        self.dbrent.endRent(date, Id)
-        # 0 means is room is available
-        self.dbroom.updateAvailability(rent.Id, 0)
-
-        ui.setupUi(Dialog, rent.endRent())
-        Dialog.show()
-        sys.exit(app.exec_())
 
 
 if __name__ == "__main__":

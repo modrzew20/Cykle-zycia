@@ -86,7 +86,7 @@ class DaoClient(Dao):
                 client_type = Silver()
             elif row[-1] == 3:  # Gold
                 client_type = Gold()
-            elif row[-1] == 3:  # Platinum
+            elif row[-1] == 4:  # Platinum
                 client_type = Platinum()
             result = Client(row[0], row[1], row[2], row[3], row[4], row[5], client_type)
 
@@ -97,5 +97,16 @@ class DaoClient(Dao):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
         cur.execute("DELETE FROM clients WHERE pesel = ?", (pesel,))
+        conn.commit()
+        conn.close()
+
+    def updateclientst(self, status, pesel):
+        conn = create_connection(self.db_file)
+        cur = conn.cursor()
+        sql = """UPDATE clients
+                          SET clientType = ?
+                          WHERE pesel = ?"""
+
+        cur.execute(sql, [status, pesel])
         conn.commit()
         conn.close()
