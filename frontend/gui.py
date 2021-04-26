@@ -633,7 +633,7 @@ class Ui_MainWindow(object):
         self.stackedWidget.setCurrentWidget(self.page_exist)
         result = self.dbroom.read()
         for i in range(len(result) + 1):
-            for j in range(len(result[0])):
+            for j in range(8):
                 label = QtWidgets.QLabel()
                 label.setStyleSheet("border-style: solid;border-width: 1px;  color: black;")
                 if i == 0:  # id, beds, price, doubleBeds, bathRooms, kitchen, swimmingPool, roomType, available
@@ -660,7 +660,7 @@ class Ui_MainWindow(object):
 
         result_client = self.dbclient.read()
         for i in range(len(result_client) + 1):
-            for j in range(len(result_client[0])):
+            for j in range(7):
                 label = QtWidgets.QLabel()
                 label.setStyleSheet("border-style: solid;border-width: 1px;color: black;")
                 if i == 0:
@@ -679,7 +679,7 @@ class Ui_MainWindow(object):
 
         result_rent = self.dbrent.read()
         for i in range(len(result_rent) + 1):
-            for j in range(len(result_rent[0])):
+            for j in range(7):
                 label = QtWidgets.QLabel()
                 label.setStyleSheet("border-style: solid;border-width: 1px;color: black;")
                 if i == 0:
@@ -755,8 +755,7 @@ class Ui_MainWindow(object):
 
 
 
-######################      METODY DO PRZELACZENIA STRON      ##################
-
+######################      METODY DO NOWEJ REZERWACJI      ##################
 
     def show_newrent_page(self):
         self.inputRoom.clear()
@@ -764,8 +763,6 @@ class Ui_MainWindow(object):
         self.stackedWidget.setCurrentWidget(self.page_newrent)
         self.radioBtn_standard.setChecked(True)
 
-
-######################      METODY DO NOWEJ REZERWACJI      ##################
 
     def check_exits_client(self):
         if len(self.inputPesel.text()) == 11:
