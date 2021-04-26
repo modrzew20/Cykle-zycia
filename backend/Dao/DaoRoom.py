@@ -87,7 +87,7 @@ class DaoRoom(Dao):
         conn.close()
         return result
 
-    def read_id(self, Id):
+    def readOne(self, Id):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
         cur.execute("SELECT * FROM rooms WHERE id = ?", (Id,))

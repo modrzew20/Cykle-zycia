@@ -38,7 +38,7 @@ class DaoRent(Dao):
             accessType = 3
 
         cur.execute(sql, (rent.beginRent.date(), rent.endRent.date(),
-                          rent.client.pesel, rent.room.getId(), accessType,rent.price))
+                          rent.client.pesel, rent.room.id, accessType,rent.price))
         conn.commit()
         conn.close()
 
@@ -86,7 +86,7 @@ class DaoRent(Dao):
         conn.commit()
         conn.close()
 
-    def readOneRent(self, Id):
+    def readOne(self, Id):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
         cur.execute("SELECT * FROM rents WHERE id = ?", (Id,))

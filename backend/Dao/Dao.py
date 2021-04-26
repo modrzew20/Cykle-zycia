@@ -13,3 +13,8 @@ class Dao(ABC):
     @abstractmethod
     def delete(self, Id):
         pass
+
+    @abstractmethod
+    def readOne(self, Id):
+        pass
+

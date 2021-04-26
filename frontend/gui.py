@@ -713,16 +713,15 @@ class Ui_MainWindow(object):
         for i in range(self.gridLayout.count()):
             self.gridLayout.itemAt(i).widget().deleteLater()
 
-        rent = self.dbrent.readOneRent(id)
-        rent.room = self.dbroom.read_id(rent.room)
+        rent = self.dbrent.readOne(id)
+        rent.room = self.dbroom.readOne(rent.room)
         self.dbroom.updateAvailability(rent.room.id, 0)
         price = 0
         if rent.accessType == 1: price = price + 120
         if rent.accessType == 2: price = price + 60
-        price = rent.getCost() * (1-self.dbclient.read_id(rent.client).clientType.discount)
+        price = rent.getCost() * (1-self.dbclient.readOne(rent.client).clientType.discount)
         self.dbrent.endRent(datetime.now(), id, price)
         priceofall = self.dbrent.sum_all_rent(rent.client)
-        print(priceofall)
         if 500 < priceofall < 1000:
             self.dbclient.updateclientst(2, rent.client)
             for i in range(self.gridLayout_3.count()):
@@ -770,7 +769,7 @@ class Ui_MainWindow(object):
 
     def check_exits_client(self):
         if len(self.inputPesel.text()) == 11:
-            result = self.dbclient.read_id(self.inputPesel.text())
+            result = self.dbclient.readOne(self.inputPesel.text())
             if result != False:
                 self.inputName.setText(result.firstName)
                 self.inputSurname.setText(result.lastName)
@@ -789,7 +788,7 @@ class Ui_MainWindow(object):
         if len(self.inputName.text()) != 0 and len(self.inputSurname.text()) != 0 and len(self.inputPesel.text()) == 11 and len(
                 self.inputCity.text()) != 0 and len(self.inputStreet.text()) != 0 and len(self.inputNumberFlat.text()) != 0:
 
-            client = self.dbclient.read_id(self.inputPesel.text())
+            client = self.dbclient.readOne(self.inputPesel.text())
             if client == False:
                 name = self.inputName.text()
                 surname = self.inputSurname.text()
@@ -808,7 +807,7 @@ class Ui_MainWindow(object):
                 st = Standard()
 
             which = int(self.inputRoom.currentText())
-            room = self.dbroom.read_id(which)
+            room = self.dbroom.readOne(which)
             self.dbroom.delete(which)
 
             if room != False:

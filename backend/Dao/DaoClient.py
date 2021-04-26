@@ -68,10 +68,10 @@ class DaoClient(Dao):
         conn.close()
         return result
 
-    def read_id(self, pesel):
+    def readOne(self, Id):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
-        cur.execute("SELECT * FROM clients WHERE pesel = ?", (pesel,))
+        cur.execute("SELECT * FROM clients WHERE pesel = ?", (Id,))
 
         rows = cur.fetchall()
         if len(rows) == 0:
