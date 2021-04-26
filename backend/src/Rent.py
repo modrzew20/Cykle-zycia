@@ -16,7 +16,10 @@ class Rent:
         self.accessType = accessType
         self.price = price
 
+    # retuns the cost of the rent
     def getCost(self):
         result_date = (datetime.strptime(self.endRent, '%Y-%m-%d') - datetime.strptime(self.beginRent, '%Y-%m-%d')).days
-        if result_date == 0: result_date = 1
+        # minimum possible renting duration is 1 day
+        if result_date == 0:
+            result_date = 1
         return self.room.price * result_date

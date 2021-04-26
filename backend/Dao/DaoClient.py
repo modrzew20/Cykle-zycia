@@ -4,10 +4,12 @@ from backend.Dao.DaoMethods import create_connection, create_table
 from backend.src.ClientType import *
 import copy
 
+
 class DaoClient(Dao):
     def __init__(self, db_file):
         self.db_file = db_file
         conn = create_connection(self.db_file)
+        # pesel is considered to be unique for every client
         sql_create_room_table = """ CREATE TABLE IF NOT EXISTS clients (
                                 firstName TEXT NOT NULL,
                                 lastNamse TEXT NOT NULL,
@@ -50,13 +52,13 @@ class DaoClient(Dao):
         result = []
         rows = cur.fetchall()
         client_type = None
-        r= [0] * 7
+        r = [0] * 7
         for row in rows:
             for j in range(7):
                 if j == 6:
-                    if row[6] == 1:    # Default
+                    if row[6] == 1:  # Default
                         r[6] = "Default"
-                    elif row[6] == 2:    # Silver
+                    elif row[6] == 2:  # Silver
                         r[6] = "Silver"
                     elif row[6] == 3:  # Gold
                         r[6] = "Gold"
@@ -100,7 +102,8 @@ class DaoClient(Dao):
         conn.commit()
         conn.close()
 
-    def updateclientst(self, status, pesel):
+    # updates client status by pesel
+    def update_client_status(self, status, pesel):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
         sql = """UPDATE clients

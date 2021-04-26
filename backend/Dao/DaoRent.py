@@ -56,6 +56,7 @@ class DaoRent(Dao):
         conn.close()
         return result
 
+    # return sum prices of all the clients reservation
     def sum_all_rent(self, pesel):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
@@ -64,16 +65,15 @@ class DaoRent(Dao):
         conn.close()
         return result[0]
 
-
-
-    def endRent(self, date, id, price):
+    # sets end date and price for rent given by Id
+    def endRent(self, date, Id, price):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
         sql = """UPDATE rents
                         SET price = ? ,endRent = ?
                         WHERE id = ?"""
 
-        cur.execute(sql, [price, date.date(), id])
+        cur.execute(sql, [price, date.date(), Id])
         conn.commit()
         conn.close()
 

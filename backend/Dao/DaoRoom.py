@@ -10,6 +10,7 @@ class DaoRoom(Dao):
     def __init__(self, db_file):
         self.db_file = db_file
         conn = create_connection(self.db_file)
+        # room number is equal to id
         sql_create_room_table = """ CREATE TABLE IF NOT EXISTS rooms (
                                 id integer PRIMARY KEY,
                                 beds integer,
@@ -108,6 +109,7 @@ class DaoRoom(Dao):
         conn.close()
         return result
 
+    # reads all available rooms
     def read_available_room(self):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
@@ -119,6 +121,7 @@ class DaoRoom(Dao):
         conn.close()
         return result
 
+    # reads id of all existing rooms
     def read_id_all_room(self):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
@@ -137,7 +140,7 @@ class DaoRoom(Dao):
         conn.commit()
         conn.close()
 
-    def updateAvailability(self, Id, value):
+    def update_availability(self, Id, value):
         conn = create_connection(self.db_file)
         cur = conn.cursor()
         sql = """UPDATE rooms SET available = ? WHERE id = ?"""

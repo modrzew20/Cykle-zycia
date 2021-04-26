@@ -30,7 +30,7 @@ class Ui_MainWindow(object):
 
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
-        MainWindow.setFixedSize(1200,700)
+        MainWindow.setFixedSize(1200, 700)
         MainWindow.setStyleSheet("QDialogButtonBox > QPushButton{\n"
                                  "\n"
                                  "background-color: rgb(27, 3, 159);\n"
@@ -625,9 +625,7 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "  POKOJE  "))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "  KLIENCI  "))
 
-
-
-######################      METODY DO OKNA Z BAZY       ##################
+    ######################      METODY DO OKNA Z BAZY       ##################
 
     def show_current(self):
         self.stackedWidget.setCurrentWidget(self.page_exist)
@@ -705,8 +703,6 @@ class Ui_MainWindow(object):
                         label.setText(str(result_rent[i - 1][j]))
                 self.gridLayout.addWidget(label, i, j, 1, 1)
 
-
-
     def erase_rent(self):
         id = int(self.input.text())
         self.dbrent.endRent(datetime.now(), id, 0)
@@ -715,29 +711,28 @@ class Ui_MainWindow(object):
 
         rent = self.dbrent.readOne(id)
         rent.room = self.dbroom.readOne(rent.room)
-        self.dbroom.updateAvailability(rent.room.id, 0)
+        self.dbroom.update_availability(rent.room.id, 0)
         price = 0
         if rent.accessType == 1: price = price + 120
         if rent.accessType == 2: price = price + 60
-        price = rent.getCost() * (1-self.dbclient.readOne(rent.client).clientType.discount)
+        price = rent.getCost() * (1 - self.dbclient.readOne(rent.client).clientType.discount)
         self.dbrent.endRent(datetime.now(), id, price)
         priceofall = self.dbrent.sum_all_rent(rent.client)
         if 500 < priceofall < 1000:
-            self.dbclient.updateclientst(2, rent.client)
+            self.dbclient.update_client_status(2, rent.client)
             for i in range(self.gridLayout_3.count()):
                 self.gridLayout_3.itemAt(i).widget().deleteLater()
         if 1000 < priceofall < 2000:
-            self.dbclient.updateclientst(3, rent.client)
+            self.dbclient.update_client_status(3, rent.client)
             for i in range(self.gridLayout_3.count()):
                 self.gridLayout_3.itemAt(i).widget().deleteLater()
         if priceofall > 2000:
-            self.dbclient.updateclientst(4, rent.client)
+            self.dbclient.update_client_status(4, rent.client)
             for i in range(self.gridLayout_3.count()):
                 self.gridLayout_3.itemAt(i).widget().deleteLater()
 
         self.show_current()
         self.input.setText("")
-
 
     def erase_room(self):
         self.dbroom.delete(self.input_2.text())
@@ -753,16 +748,13 @@ class Ui_MainWindow(object):
         self.show_current()
         self.input_3.setText("")
 
-
-
-######################      METODY DO NOWEJ REZERWACJI      ##################
+    ######################      METODY DO NOWEJ REZERWACJI      ##################
 
     def show_newrent_page(self):
         self.inputRoom.clear()
         self.inputRoom.addItems(self.dbroom.read_available_room())
         self.stackedWidget.setCurrentWidget(self.page_newrent)
         self.radioBtn_standard.setChecked(True)
-
 
     def check_exits_client(self):
         if len(self.inputPesel.text()) == 11:
@@ -782,8 +774,10 @@ class Ui_MainWindow(object):
                     self.radioBtn_standard.setChecked(True)
 
     def add_new_reservation(self):
-        if len(self.inputName.text()) != 0 and len(self.inputSurname.text()) != 0 and len(self.inputPesel.text()) == 11 and len(
-                self.inputCity.text()) != 0 and len(self.inputStreet.text()) != 0 and len(self.inputNumberFlat.text()) != 0:
+        if len(self.inputName.text()) != 0 and len(self.inputSurname.text()) != 0 and len(
+                self.inputPesel.text()) == 11 and len(
+                self.inputCity.text()) != 0 and len(self.inputStreet.text()) != 0 and len(
+            self.inputNumberFlat.text()) != 0:
 
             client = self.dbclient.readOne(self.inputPesel.text())
             if client == False:
@@ -813,7 +807,6 @@ class Ui_MainWindow(object):
             self.dbroom.write(room)
             self.clear_new_reservation()
 
-
     def clear_new_reservation(self):
         self.inputName.setText("")
         self.inputSurname.setText("")
@@ -826,9 +819,7 @@ class Ui_MainWindow(object):
         self.radioBtn_medium.setChecked(False)
         self.radioBtn_standard.setChecked(False)
 
-
-#########################   METODA DO NOWYCH POKOJOW    #####################
-
+    #########################   METODA DO NOWYCH POKOJOW    #####################
 
     def check_number(self, number):
         result = self.dbroom.read_id_all_room()
