@@ -9,8 +9,6 @@
 
 from datetime import datetime
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtGui import QFocusEvent
-
 from backend.src.AccessType import Standard, VIP, Exclusive
 from backend.src.Apartment import Apartment
 from backend.Dao.DaoRent import DaoRent
@@ -296,24 +294,24 @@ class Ui_MainWindow(object):
         self.room = QtWidgets.QLabel(self.newrent)
         self.room.setGeometry(QtCore.QRect(65, 410, 161, 16))
         self.room.setObjectName("room")
-        self.lName = QtWidgets.QLineEdit(self.newrent)
-        self.lName.setGeometry(QtCore.QRect(270, 100, 291, 41))
-        self.lName.setObjectName("lName")
-        self.lSurname = QtWidgets.QLineEdit(self.newrent)
-        self.lSurname.setGeometry(QtCore.QRect(270, 150, 291, 41))
-        self.lSurname.setObjectName("lSurname")
-        self.lPesel = QtWidgets.QLineEdit(self.newrent)
-        self.lPesel.setGeometry(QtCore.QRect(270, 200, 291, 41))
-        self.lPesel.setObjectName("lPesel")
-        self.lCity = QtWidgets.QLineEdit(self.newrent)
-        self.lCity.setGeometry(QtCore.QRect(270, 250, 291, 41))
-        self.lCity.setObjectName("lCity")
-        self.lStreet = QtWidgets.QLineEdit(self.newrent)
-        self.lStreet.setGeometry(QtCore.QRect(270, 300, 291, 41))
-        self.lStreet.setObjectName("lStreet")
-        self.lNFlat = QtWidgets.QLineEdit(self.newrent)
-        self.lNFlat.setGeometry(QtCore.QRect(270, 350, 161, 41))
-        self.lNFlat.setObjectName("lNFlat")
+        self.inputName = QtWidgets.QLineEdit(self.newrent)
+        self.inputName.setGeometry(QtCore.QRect(270, 100, 291, 41))
+        self.inputName.setObjectName("lName")
+        self.inputSurname = QtWidgets.QLineEdit(self.newrent)
+        self.inputSurname.setGeometry(QtCore.QRect(270, 150, 291, 41))
+        self.inputSurname.setObjectName("lSurname")
+        self.inputPesel = QtWidgets.QLineEdit(self.newrent)
+        self.inputPesel.setGeometry(QtCore.QRect(270, 200, 291, 41))
+        self.inputPesel.setObjectName("lPesel")
+        self.inputCity = QtWidgets.QLineEdit(self.newrent)
+        self.inputCity.setGeometry(QtCore.QRect(270, 250, 291, 41))
+        self.inputCity.setObjectName("lCity")
+        self.inputStreet = QtWidgets.QLineEdit(self.newrent)
+        self.inputStreet.setGeometry(QtCore.QRect(270, 300, 291, 41))
+        self.inputStreet.setObjectName("lStreet")
+        self.inputNumberFlat = QtWidgets.QLineEdit(self.newrent)
+        self.inputNumberFlat.setGeometry(QtCore.QRect(270, 350, 161, 41))
+        self.inputNumberFlat.setObjectName("lNFlat")
         self.buttonBox = QtWidgets.QDialogButtonBox(self.newrent)
         self.buttonBox.setGeometry(QtCore.QRect(230, 510, 193, 28))
         self.buttonBox.setStandardButtons(QtWidgets.QDialogButtonBox.Cancel | QtWidgets.QDialogButtonBox.Ok)
@@ -321,18 +319,18 @@ class Ui_MainWindow(object):
         self.groupBox = QtWidgets.QGroupBox(self.newrent)
         self.groupBox.setGeometry(QtCore.QRect(60, 440, 531, 61))
         self.groupBox.setObjectName("groupBox")
-        self.radioButton = QtWidgets.QRadioButton(self.groupBox)
-        self.radioButton.setGeometry(QtCore.QRect(110, 30, 140, 20))
-        self.radioButton.setObjectName("radioButton")
-        self.radioButton_2 = QtWidgets.QRadioButton(self.groupBox)
-        self.radioButton_2.setGeometry(QtCore.QRect(265, 30, 140, 20))
-        self.radioButton_2.setObjectName("radioButton_2")
-        self.radioButton_3 = QtWidgets.QRadioButton(self.groupBox)
-        self.radioButton_3.setGeometry(QtCore.QRect(400, 30, 140, 20))
-        self.radioButton_3.setObjectName("radioButton_3")
-        self.lRoom = QtWidgets.QComboBox(self.newrent)
-        self.lRoom.setGeometry(QtCore.QRect(270, 400, 60, 41))
-        self.lRoom.setObjectName("lRoom")
+        self.radioBtn_exc = QtWidgets.QRadioButton(self.groupBox)
+        self.radioBtn_exc.setGeometry(QtCore.QRect(110, 30, 140, 20))
+        self.radioBtn_exc.setObjectName("radioButton")
+        self.radioBtn_medium = QtWidgets.QRadioButton(self.groupBox)
+        self.radioBtn_medium.setGeometry(QtCore.QRect(265, 30, 140, 20))
+        self.radioBtn_medium.setObjectName("radioButton_2")
+        self.radioBtn_standard = QtWidgets.QRadioButton(self.groupBox)
+        self.radioBtn_standard.setGeometry(QtCore.QRect(400, 30, 140, 20))
+        self.radioBtn_standard.setObjectName("radioButton_3")
+        self.inputRoom = QtWidgets.QComboBox(self.newrent)
+        self.inputRoom.setGeometry(QtCore.QRect(270, 400, 60, 41))
+        self.inputRoom.setObjectName("lRoom")
         self.stackedWidget.addWidget(self.page_newrent)
         self.page_newroom = QtWidgets.QWidget()
         self.page_newroom.setObjectName("page_newroom")
@@ -489,7 +487,7 @@ class Ui_MainWindow(object):
         self.btn_end.setGeometry(QtCore.QRect(450, 460, 150, 41))
         self.btn_end.setText("Zakończ")
         self.btn_end.setObjectName("btn_end")
-        self.btn_end.clicked.connect(self.endrent)
+        self.btn_end.clicked.connect(self.erase_rent)
 
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QtWidgets.QWidget()
@@ -567,7 +565,7 @@ class Ui_MainWindow(object):
         self.buttonBox_3.rejected.connect(self.reset_newroom)
         self.buttonBox_4.accepted.connect(self.create_newguesthouse)
         self.buttonBox_4.rejected.connect(self.reset_newroom)
-        self.lPesel.textChanged.connect(self.check_exits_client)
+        self.inputPesel.textChanged.connect(self.check_exits_client)
         self.buttonBox.accepted.connect(self.add_new_reservation)
         self.buttonBox.rejected.connect(self.clear_new_reservation)
         self.retranslateUi(MainWindow)
@@ -587,16 +585,16 @@ class Ui_MainWindow(object):
         self.street.setText(_translate("MainWindow", "ULICA"))
         self.nFlat.setText(_translate("MainWindow", "NUMER MIESZKANIA"))
         self.room.setText(_translate("MainWindow", "NUMER POKOJU"))
-        self.lName.setPlaceholderText(_translate("MainWindow", "Imie"))
-        self.lSurname.setPlaceholderText(_translate("MainWindow", "Nazwisko"))
-        self.lPesel.setPlaceholderText(_translate("MainWindow", "Pesel"))
-        self.lCity.setPlaceholderText(_translate("MainWindow", "Miasto"))
-        self.lStreet.setPlaceholderText(_translate("MainWindow", "Ulica"))
-        self.lNFlat.setPlaceholderText(_translate("MainWindow", "Numer mieszkania"))
+        self.inputName.setPlaceholderText(_translate("MainWindow", "Imie"))
+        self.inputSurname.setPlaceholderText(_translate("MainWindow", "Nazwisko"))
+        self.inputPesel.setPlaceholderText(_translate("MainWindow", "Pesel"))
+        self.inputCity.setPlaceholderText(_translate("MainWindow", "Miasto"))
+        self.inputStreet.setPlaceholderText(_translate("MainWindow", "Ulica"))
+        self.inputNumberFlat.setPlaceholderText(_translate("MainWindow", "Numer mieszkania"))
         self.groupBox.setTitle(_translate("MainWindow", "Standard"))
-        self.radioButton.setText(_translate("MainWindow", "Exclusive"))
-        self.radioButton_2.setText(_translate("MainWindow", "Medium"))
-        self.radioButton_3.setText(_translate("MainWindow", "Normal"))
+        self.radioBtn_exc.setText(_translate("MainWindow", "Exclusive"))
+        self.radioBtn_medium.setText(_translate("MainWindow", "Medium"))
+        self.radioBtn_standard.setText(_translate("MainWindow", "Normal"))
         self.title_2.setText(_translate("MainWindow", "NOWE ZAKWATEROWANIE "))
         self.label_10.setText(_translate("MainWindow", "NUMER POKOJU"))
         self.label_11.setText(_translate("MainWindow", "CENA"))
@@ -627,119 +625,9 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("MainWindow", "  POKOJE  "))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_4), _translate("MainWindow", "  KLIENCI  "))
 
-    def erase_room(self):
-        self.dbroom.delete(self.input_2.text())
-        for i in range(self.gridLayout_2.count()):
-            self.gridLayout_2.itemAt(i).widget().deleteLater()
-        self.show_current()
-        self.input_2.setText("")
-
-    def erase_client(self):
-        self.dbclient.delete(self.input_3.text())
-        for i in range(self.gridLayout_3.count()):
-            self.gridLayout_3.itemAt(i).widget().deleteLater()
-        self.show_current()
-        self.input_3.setText("")
-
-    def show_newrent_page(self):
-        self.lRoom.clear()
-        self.lRoom.addItems(self.dbroom.read_available_room())
-        self.stackedWidget.setCurrentWidget(self.page_newrent)
-        self.radioButton_3.setChecked(True)
-
-    def endrent(self):
-        id = int(self.input.text())
-        self.dbrent.endRent(datetime.now(), id, 0)
-        for i in range(self.gridLayout.count()):
-            self.gridLayout.itemAt(i).widget().deleteLater()
-
-        rent = self.dbrent.readOneRent(id)
-        rent.room = self.dbroom.read_id(rent.room)
-        self.dbroom.updateAvailability(rent.room.id, 0)
-        price = 0
-        if rent.accessType == 1: price = price + 120
-        if rent.accessType == 2: price = price + 60
-        price = rent.getCost() * (1-self.dbclient.read_id(rent.client).clientType.discount)
-        self.dbrent.endRent(datetime.now(), id, price)
-        priceofall = self.dbrent.sum_all_rent(rent.client)
-        print(priceofall)
-        if 500 < priceofall < 1000:
-            self.dbclient.updateclientst(2, rent.client)
-            for i in range(self.gridLayout_3.count()):
-                self.gridLayout_3.itemAt(i).widget().deleteLater()
-        if 1000 < priceofall < 2000:
-            self.dbclient.updateclientst(3, rent.client)
-            for i in range(self.gridLayout_3.count()):
-                self.gridLayout_3.itemAt(i).widget().deleteLater()
-        if priceofall > 2000:
-            self.dbclient.updateclientst(4, rent.client)
-            for i in range(self.gridLayout_3.count()):
-                self.gridLayout_3.itemAt(i).widget().deleteLater()
-
-        self.show_current()
-        self.input.setText("")
-
-    def check_exits_client(self):
-        if len(self.lPesel.text()) == 11:
-            result = self.dbclient.read_id(self.lPesel.text())
-            if result != False:
-                self.lName.setText(result.firstName)
-                self.lSurname.setText(result.lastName)
-                self.lCity.setText(result.city)
-                self.lStreet.setText(result.street)
-                self.lNFlat.setText(result.number)
-                ctype = result.clientType
-                if type(ctype) == Silver:
-                    self.radioButton_2.setChecked(True)
-                elif type(ctype) == Gold or type(ctype) == Platinum:
-                    self.radioButton.setChecked(True)
-                else:
-                    self.radioButton_3.setChecked(True)
-
-    def add_new_reservation(self):
-        if len(self.lName.text()) != 0 and len(self.lSurname.text()) != 0 and len(self.lPesel.text()) == 11 and len(
-                self.lCity.text()) != 0 and len(self.lStreet.text()) != 0 and len(self.lNFlat.text()) != 0:
-
-            client = self.dbclient.read_id(self.lPesel.text())
-            if client == False:
-                name = self.lName.text()
-                surname = self.lSurname.text()
-                pesel = self.lPesel.text()
-                city = self.lCity.text()
-                street = self.lStreet.text()
-                number = self.lNFlat.text()
-                client = Client(name, surname, pesel, city, street, number, Default())
-                self.dbclient.write(client)
-
-            if self.radioButton.isChecked():
-                st = Exclusive()
-            elif self.radioButton_2.isChecked():
-                st = VIP()
-            else:
-                st = Standard()
-
-            which = int(self.lRoom.currentText())
-            room = self.dbroom.read_id(which)
-            self.dbroom.delete(which)
-
-            if room != False:
-                self.dbrent.write(Rent(None, datetime(2021, 4, 21), datetime(100, 1, 1), client, room, st, 0))
-            room.available = 1
-            self.dbroom.write(room)
-            self.clear_new_reservation()
 
 
-    def clear_new_reservation(self):
-        self.lName.setText("")
-        self.lSurname.setText("")
-        self.lCity.setText("")
-        self.lStreet.setText("")
-        self.lNFlat.setText("")
-        self.lPesel.setText("")
-        self.lRoom.removeItem(self.lRoom.currentIndex())
-        self.radioButton.setChecked(False)
-        self.radioButton_2.setChecked(False)
-        self.radioButton_3.setChecked(False)
+######################      METODY DO OKNA Z BAZY       ##################
 
     def show_current(self):
         self.stackedWidget.setCurrentWidget(self.page_exist)
@@ -816,6 +704,135 @@ class Ui_MainWindow(object):
                     else:
                         label.setText(str(result_rent[i - 1][j]))
                 self.gridLayout.addWidget(label, i, j, 1, 1)
+
+
+
+    def erase_rent(self):
+        id = int(self.input.text())
+        self.dbrent.endRent(datetime.now(), id, 0)
+        for i in range(self.gridLayout.count()):
+            self.gridLayout.itemAt(i).widget().deleteLater()
+
+        rent = self.dbrent.readOneRent(id)
+        rent.room = self.dbroom.read_id(rent.room)
+        self.dbroom.updateAvailability(rent.room.id, 0)
+        price = 0
+        if rent.accessType == 1: price = price + 120
+        if rent.accessType == 2: price = price + 60
+        price = rent.getCost() * (1-self.dbclient.read_id(rent.client).clientType.discount)
+        self.dbrent.endRent(datetime.now(), id, price)
+        priceofall = self.dbrent.sum_all_rent(rent.client)
+        print(priceofall)
+        if 500 < priceofall < 1000:
+            self.dbclient.updateclientst(2, rent.client)
+            for i in range(self.gridLayout_3.count()):
+                self.gridLayout_3.itemAt(i).widget().deleteLater()
+        if 1000 < priceofall < 2000:
+            self.dbclient.updateclientst(3, rent.client)
+            for i in range(self.gridLayout_3.count()):
+                self.gridLayout_3.itemAt(i).widget().deleteLater()
+        if priceofall > 2000:
+            self.dbclient.updateclientst(4, rent.client)
+            for i in range(self.gridLayout_3.count()):
+                self.gridLayout_3.itemAt(i).widget().deleteLater()
+
+        self.show_current()
+        self.input.setText("")
+
+
+    def erase_room(self):
+        self.dbroom.delete(self.input_2.text())
+        for i in range(self.gridLayout_2.count()):
+            self.gridLayout_2.itemAt(i).widget().deleteLater()
+        self.show_current()
+        self.input_2.setText("")
+
+    def erase_client(self):
+        self.dbclient.delete(self.input_3.text())
+        for i in range(self.gridLayout_3.count()):
+            self.gridLayout_3.itemAt(i).widget().deleteLater()
+        self.show_current()
+        self.input_3.setText("")
+
+
+
+######################      METODY DO PRZELACZENIA STRON      ##################
+
+
+    def show_newrent_page(self):
+        self.inputRoom.clear()
+        self.inputRoom.addItems(self.dbroom.read_available_room())
+        self.stackedWidget.setCurrentWidget(self.page_newrent)
+        self.radioBtn_standard.setChecked(True)
+
+
+######################      METODY DO NOWEJ REZERWACJI      ##################
+
+    def check_exits_client(self):
+        if len(self.inputPesel.text()) == 11:
+            result = self.dbclient.read_id(self.inputPesel.text())
+            if result != False:
+                self.inputName.setText(result.firstName)
+                self.inputSurname.setText(result.lastName)
+                self.inputCity.setText(result.city)
+                self.inputStreet.setText(result.street)
+                self.inputNumberFlat.setText(result.number)
+                ctype = result.clientType
+                if type(ctype) == Silver:
+                    self.radioBtn_medium.setChecked(True)
+                elif type(ctype) == Gold or type(ctype) == Platinum:
+                    self.radioBtn_exc.setChecked(True)
+                else:
+                    self.radioBtn_standard.setChecked(True)
+
+    def add_new_reservation(self):
+        if len(self.inputName.text()) != 0 and len(self.inputSurname.text()) != 0 and len(self.inputPesel.text()) == 11 and len(
+                self.inputCity.text()) != 0 and len(self.inputStreet.text()) != 0 and len(self.inputNumberFlat.text()) != 0:
+
+            client = self.dbclient.read_id(self.inputPesel.text())
+            if client == False:
+                name = self.inputName.text()
+                surname = self.inputSurname.text()
+                pesel = self.inputPesel.text()
+                city = self.inputCity.text()
+                street = self.inputStreet.text()
+                number = self.inputNumberFlat.text()
+                client = Client(name, surname, pesel, city, street, number, Default())
+                self.dbclient.write(client)
+
+            if self.radioBtn_exc.isChecked():
+                st = Exclusive()
+            elif self.radioBtn_medium.isChecked():
+                st = VIP()
+            else:
+                st = Standard()
+
+            which = int(self.inputRoom.currentText())
+            room = self.dbroom.read_id(which)
+            self.dbroom.delete(which)
+
+            if room != False:
+                self.dbrent.write(Rent(None, datetime(2021, 4, 21), datetime(100, 1, 1), client, room, st, 0))
+            room.available = 1
+            self.dbroom.write(room)
+            self.clear_new_reservation()
+
+
+    def clear_new_reservation(self):
+        self.inputName.setText("")
+        self.inputSurname.setText("")
+        self.inputCity.setText("")
+        self.inputStreet.setText("")
+        self.inputNumberFlat.setText("")
+        self.inputPesel.setText("")
+        self.inputRoom.removeItem(self.inputRoom.currentIndex())
+        self.radioBtn_exc.setChecked(False)
+        self.radioBtn_medium.setChecked(False)
+        self.radioBtn_standard.setChecked(False)
+
+
+#########################   METODA DO NOWYCH POKOJOW    #####################
+
 
     def check_number(self, number):
         result = self.dbroom.read_id_all_room()
